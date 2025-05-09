@@ -1,66 +1,239 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Fagnoon Monolith: Trip & Birthday Reservation System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Project Overview
 
-## About Laravel
+This project is a monolithic application for Fagnoon, designed to handle trip and birthday reservations. It is built using Laravel 11 and Vite for the frontend asset bundling.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## New Features Implemented
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+The following key features have been implemented in this version of the system:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Comprehensive CRUD Operations**: Full Create, Read, Update, and Delete functionalities for both Trips and Birthday reservations.
+- **Advanced Booking Rules**: 
+    - Enforced limits on package and activity selections.
+    - Implemented location-blocking rules to prevent double bookings (e.g., "one booking per location per day" for certain event types).
+- **File Uploads**:
+    - Users can upload payment slips for their reservations.
+    - Functionality for uploading feedback images has been added.
+- **Real-time Attendee Check-in**: A system for real-time check-in of attendees for events, capturing name, phone, adult/kid counts, and timestamp.
+- **Notifications System**:
+    - A notification bell icon displays the count of unread notifications.
+    - Users can view a list of their notifications in a dropdown.
+    - Notifications are generated for events like reservation creation, updates, and deletions.
+    - Functionality to mark notifications as read (individually or all at once).
+- **Automated Testing**: PHPUnit tests have been implemented for critical areas:
+    - Authentication flow (registration, login, logout, failed login).
+    - Reservation flow (creation, update, deletion, validation failures, conflict scenarios).
 
-## Learning Laravel
+## Setup Instructions
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+To set up the project locally, follow these steps:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+1.  **Clone the repository** (if you haven't already):
+    ```bash
+    git clone <repository-url>
+    cd <repository-directory>
+    ```
+2.  **Install PHP Dependencies**:
+    ```bash
+    composer install
+    ```
+3.  **Install JavaScript Dependencies**:
+    ```bash
+    npm install
+    ```
+4.  **Build Frontend Assets**:
+    ```bash
+    npm run build
+    ```
+5.  **Set Up Environment File**:
+    Copy the example environment file and generate an application key.
+    ```bash
+    cp .env.example .env
+    php artisan key:generate
+    ```
+    *Ensure you configure your database connection details in the `.env` file (e.g., for MySQL, PostgreSQL, or SQLite). For SQLite, you might need to create the database file: `touch database/database.sqlite`.*
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+6.  **Run Database Migrations (and Seeders if available)**:
+    ```bash
+    php artisan migrate --seed
+    ```
+    *(The `--seed` flag will run database seeders if they are configured to populate initial data.)*
 
-## Laravel Sponsors
+7.  **Serve the Application**:
+    ```bash
+    php artisan serve
+    ```
+    The application will typically be available at `http://127.0.0.1:8000`.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## API Endpoints
 
-### Premium Partners
+The following API endpoints are available. Most data-mutating endpoints and data-retrieval endpoints require authentication via Sanctum.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### Authentication
 
-## Contributing
+-   `POST /api/register`
+    -   **Purpose**: Register a new user.
+    -   **Params**: `name`, `email`, `password`, `password_confirmation`.
+-   `POST /api/login`
+    -   **Purpose**: Log in an existing user.
+    -   **Params**: `email`, `password`.
+-   `POST /api/logout` (Authenticated)
+    -   **Purpose**: Log out the currently authenticated user.
+-   `GET /api/user` (Authenticated)
+    -   **Purpose**: Get details of the currently authenticated user.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Reservations
 
-## Code of Conduct
+-   `GET /api/reservations` (Authenticated)
+    -   **Purpose**: List all reservations (likely for the authenticated user or admin).
+-   `POST /api/reservations` (Authenticated)
+    -   **Purpose**: Create a new reservation.
+    -   **Params**: `user_id` (usually current user), `location_id`, `package_id`, `reservation_date`, `start_time`, `adult_count`, `kid_count`, `status`, `event_type`, `total_price`, etc.
+-   `GET /api/reservations/{id}` (Authenticated)
+    -   **Purpose**: Show details of a specific reservation.
+-   `PUT/PATCH /api/reservations/{id}` (Authenticated)
+    -   **Purpose**: Update an existing reservation.
+    -   **Params**: Fields to update.
+-   `DELETE /api/reservations/{id}` (Authenticated)
+    -   **Purpose**: Delete a reservation.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Birthdays
 
-## Security Vulnerabilities
+-   Follows standard RESTful resource patterns similar to Reservations (`/api/birthdays`).
+-   `GET /api/birthdays`
+-   `POST /api/birthdays`
+-   `GET /api/birthdays/{id}`
+-   `PUT/PATCH /api/birthdays/{id}`
+-   `DELETE /api/birthdays/{id}`
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Locations
 
-## License
+-   `GET /api/locations` (Authenticated, potentially public for listing)
+    -   **Purpose**: List all locations.
+-   `POST /api/locations` (Authenticated, admin likely)
+    -   **Purpose**: Create a new location.
+-   `GET /api/locations/{id}` (Authenticated)
+    -   **Purpose**: Show details of a specific location.
+-   `PUT/PATCH /api/locations/{id}` (Authenticated, admin likely)
+    -   **Purpose**: Update an existing location.
+-   `DELETE /api/locations/{id}` (Authenticated, admin likely)
+    -   **Purpose**: Delete a location.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Packages
+
+-   Follows standard RESTful resource patterns similar to Locations (`/api/packages`).
+
+### Activities
+
+-   Follows standard RESTful resource patterns similar to Locations (`/api/activities`).
+
+### Attendees
+
+-   `GET /api/attendees` (Authenticated)
+    -   **Purpose**: List attendees (e.g., for a specific reservation).
+-   `POST /api/attendees` (Authenticated)
+    -   **Purpose**: Create an attendee record (manual add).
+-   `GET /api/attendees/{id}` (Authenticated)
+    -   **Purpose**: Show details of a specific attendee.
+-   `PUT/PATCH /api/attendees/{id}` (Authenticated)
+    -   **Purpose**: Update an attendee record.
+-   `DELETE /api/attendees/{id}` (Authenticated)
+    -   **Purpose**: Delete an attendee record.
+-   `POST /api/attendees/{attendee}/check-in` (Authenticated)
+    -   **Purpose**: Perform real-time check-in for an attendee.
+    -   **Params**: `name`, `phone`, `adult_count`, `kid_count` (if not already set or needs update).
+
+### Notifications
+
+-   `GET /api/notifications` (Authenticated)
+    -   **Purpose**: List notifications for the authenticated user.
+-   `GET /api/notifications/unread-count` (Authenticated)
+    -   **Purpose**: Get the count of unread notifications for the user.
+-   `POST /api/notifications/{notification}/mark-as-read` (Authenticated)
+    -   **Purpose**: Mark a specific notification as read.
+-   `POST /api/notifications/mark-all-as-read` (Authenticated)
+    -   **Purpose**: Mark all unread notifications as read for the user.
+
+### Payments
+
+-   `GET /api/payments` (Authenticated)
+    -   **Purpose**: List payments.
+-   `POST /api/payments` (Authenticated)
+    -   **Purpose**: Create a payment record.
+-   `GET /api/payments/{id}` (Authenticated)
+    -   **Purpose**: Show details of a specific payment.
+-   `PUT/PATCH /api/payments/{id}` (Authenticated)
+    -   **Purpose**: Update a payment record.
+-   `DELETE /api/payments/{id}` (Authenticated)
+    -   **Purpose**: Delete a payment record.
+-   `POST /api/payments/{payment}/upload-slip` (Authenticated)
+    -   **Purpose**: Upload a payment slip image for a specific payment.
+    -   **Params**: File input (e.g., `payment_slip`).
+
+### Feedback
+
+-   `GET /api/feedback` (Authenticated)
+    -   **Purpose**: List feedback entries.
+-   `POST /api/feedback` (Authenticated)
+    -   **Purpose**: Submit new feedback.
+-   `GET /api/feedback/{id}` (Authenticated)
+    -   **Purpose**: Show details of specific feedback.
+-   `PUT/PATCH /api/feedback/{id}` (Authenticated)
+    -   **Purpose**: Update feedback.
+-   `DELETE /api/feedback/{id}` (Authenticated)
+    -   **Purpose**: Delete feedback.
+-   `POST /api/feedback/{feedback}/upload-image` (Authenticated)
+    -   **Purpose**: Upload an image associated with feedback.
+    -   **Params**: File input (e.g., `feedback_image`).
+
+### Calendar & Card Views
+
+-   `GET /api/calendar-view` (Authenticated)
+    -   **Purpose**: Retrieve data formatted for a calendar view (e.g., reservations).
+-   `GET /api/card-view` (Authenticated)
+    -   **Purpose**: Retrieve data formatted for a card-based view.
+
+### Admin Panel (Prefix: `/api/admin`)
+
+-   All admin routes require authentication and appropriate admin role/permissions.
+-   `GET, POST, PUT/PATCH, DELETE /api/admin/users`
+-   `GET, POST, PUT/PATCH, DELETE /api/admin/locations`
+-   `GET, POST, PUT/PATCH, DELETE /api/admin/packages`
+-   `GET, POST, PUT/PATCH, DELETE /api/admin/activities`
+
+## How to Run Tests
+
+To run the automated PHPUnit tests, use the following Artisan command:
+
+```bash
+php artisan test
+```
+
+## Notes on Deployment
+
+When deploying the application to a production environment, consider the following:
+
+-   **Environment Variables**: 
+    -   Ensure a `.env` file is present on the server and configured for the production environment.
+    -   Set `APP_ENV=production`.
+    -   Set `APP_DEBUG=false` to disable debug mode.
+    -   Generate a new, secure `APP_KEY` specifically for the production environment.
+    -   Configure database, cache, queue, mail, and other service credentials for production.
+-   **Production Build**: 
+    -   Run `npm run build` to generate optimized frontend assets.
+-   **Composer Install**: 
+    -   Run `composer install --optimize-autoloader --no-dev` for optimized class loading and to exclude development dependencies.
+-   **Configuration Caching**: 
+    -   Cache your configuration files for better performance: `php artisan config:cache`.
+-   **Route Caching**: 
+    -   Cache your routes for better performance: `php artisan route:cache`.
+-   **View Caching** (Optional, if views are complex and not frequently changing):
+    -   Cache your Blade views: `php artisan view:cache`.
+-   **Permissions**: Ensure web server has write permissions to `storage` and `bootstrap/cache` directories.
+-   **Queue Worker**: If using queues, ensure a queue worker process (e.g., Supervisor) is configured and running.
+-   **Scheduler**: If using scheduled tasks, configure a cron job to run `php artisan schedule:run` every minute.
+-   **Web Server Configuration**: Configure your web server (Nginx, Apache) to point to the `public` directory and handle requests appropriately (e.g., pretty URLs).
+
+This README provides a comprehensive guide to understanding, setting up, and using the Fagnoon Monolith application.
+
