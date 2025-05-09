@@ -14,7 +14,7 @@ jobs:
       mysql:
         image: mysql:5.7
         env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
           MYSQL_DATABASE: laravel_test
         ports:
           - 3306:3306
@@ -26,7 +26,7 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: '8.2'
-        extensions: mbstring, xml, curl, zip, mysql
+        extensions: mbstring, xml, curl, zip, pdo_mysql
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
     - name: Update .env with test database config
@@ -38,7 +38,7 @@ jobs:
         sed -i "s/DB_USERNAME=root/DB_USERNAME=root/g" .env
         sed -i "s/DB_PASSWORD=/DB_PASSWORD=/g" .env
     - name: Install Dependencies
-      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --ignore-platform-reqs
+      run: composer install -q --no-ansi --no-interaction --no-scripts --prefer-dist --ignore-platform-reqs
     - name: Generate key
       run: php artisan key:generate
     - name: Directory Permissions
