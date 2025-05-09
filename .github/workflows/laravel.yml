@@ -19,11 +19,8 @@ jobs:
           MYSQL_ROOT_PASSWORD: ""
         ports:
           - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping --silent"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
+        # Add a health check for the MySQL service
+        options: --health-cmd="mysqladmin ping --silent" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
     - uses: actions/checkout@v3
@@ -56,8 +53,22 @@ jobs:
       run: php artisan config:clear && php artisan cache:clear && php artisan route:clear && php artisan view:clear && php artisan event:clear
 
     - name: Run Migrations
+      env:
+        DB_CONNECTION: mysql
+        DB_HOST: mysql # Use the service name from the services block
+        DB_PORT: 3306
+        DB_DATABASE: laravel_test
+        DB_USERNAME: root
+        DB_PASSWORD: ""
       run: php artisan migrate --force
 
     - name: Run Tests
+      env:
+        DB_CONNECTION: mysql
+        DB_HOST: mysql # Use the service name from the services block
+        DB_PORT: 3306
+        DB_DATABASE: laravel_test
+        DB_USERNAME: root
+        DB_PASSWORD: ""
       run: php artisan test --verbose
 
