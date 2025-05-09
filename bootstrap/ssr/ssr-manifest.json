@@ -60,6 +60,14 @@
   "resources/js/Pages/Auth/VerifyEmail.jsx": [
     "/build/assets/VerifyEmail-B9lllJvf.js"
   ],
+  "resources/js/Pages/Birthdays/Birthday.jsx": [
+    "/build/assets/Birthday-DKNZCmOb.js",
+    "/build/assets/Birthday-BAXOVQkP.css"
+  ],
+  "resources/js/Pages/Birthdays/birthday.css": [
+    "/build/assets/Birthday-DKNZCmOb.js",
+    "/build/assets/Birthday-BAXOVQkP.css"
+  ],
   "resources/js/Pages/Dashboard.jsx": [
     "/build/assets/Dashboard-arfpFOCm.js"
   ],
@@ -75,8 +83,164 @@
   "resources/js/Pages/Profile/Partials/UpdateProfileInformationForm.jsx": [
     "/build/assets/UpdateProfileInformationForm-DPCxI1p7.js"
   ],
+  "resources/js/Pages/Trips/Trips.jsx": [
+    "/build/assets/Trips-mAPMzXVK.js",
+    "/build/assets/Trips-T7nD8Kkl.css"
+  ],
+  "resources/js/Pages/Trips/trips.css": [
+    "/build/assets/Trips-mAPMzXVK.js",
+    "/build/assets/Trips-T7nD8Kkl.css"
+  ],
   "resources/js/Pages/Welcome.jsx": [
     "/build/assets/Welcome-CHWsJynh.js"
+  ],
+  "resources/js/fagnoon_app/components/birthdayPageComponent/birthdayInfo/BirthdayInfo.jsx": [
+    "/build/assets/Birthday-DKNZCmOb.js",
+    "/build/assets/Birthday-BAXOVQkP.css"
+  ],
+  "resources/js/fagnoon_app/components/birthdayPageComponent/birthdayInfo/birthdayInfo.css": [
+    "/build/assets/Birthday-DKNZCmOb.js",
+    "/build/assets/Birthday-BAXOVQkP.css"
+  ],
+  "resources/js/fagnoon_app/components/birthdayPageComponent/birthdayInputs/BirthdayInputs.jsx": [
+    "/build/assets/Birthday-DKNZCmOb.js",
+    "/build/assets/Birthday-BAXOVQkP.css"
+  ],
+  "resources/js/fagnoon_app/components/birthdayPageComponent/birthdayInputs/birthdayInputs.css": [
+    "/build/assets/Birthday-DKNZCmOb.js",
+    "/build/assets/Birthday-BAXOVQkP.css"
+  ],
+  "resources/js/fagnoon_app/components/birthdayPageComponent/birthdayInputs/generalAccordion/GeneralAccordion.jsx": [
+    "/build/assets/Birthday-DKNZCmOb.js",
+    "/build/assets/Birthday-BAXOVQkP.css"
+  ],
+  "resources/js/fagnoon_app/components/birthdayPageComponent/birthdayInputs/generalAccordion/generalAccordion.css": [
+    "/build/assets/Birthday-DKNZCmOb.js",
+    "/build/assets/Birthday-BAXOVQkP.css"
+  ],
+  "resources/js/fagnoon_app/components/birthdayPageComponent/birthdayInputs/generalAccordion/generalInputDialog/GeneralInputDialog.jsx": [
+    "/build/assets/Birthday-DKNZCmOb.js",
+    "/build/assets/Birthday-BAXOVQkP.css"
+  ],
+  "resources/js/fagnoon_app/components/birthdayPageComponent/birthdayInputs/locationAccordion/LocationAccordion.jsx": [
+    "/build/assets/Birthday-DKNZCmOb.js",
+    "/build/assets/Birthday-BAXOVQkP.css"
+  ],
+  "resources/js/fagnoon_app/components/birthdayPageComponent/birthdayInputs/locationAccordion/locationAccordion.css": [
+    "/build/assets/Birthday-DKNZCmOb.js",
+    "/build/assets/Birthday-BAXOVQkP.css"
+  ],
+  "resources/js/fagnoon_app/components/birthdayPageComponent/birthdayInputs/useBirthdayInputs.jsx": [
+    "/build/assets/Birthday-DKNZCmOb.js",
+    "/build/assets/Birthday-BAXOVQkP.css"
+  ],
+  "resources/js/fagnoon_app/components/birthdayPageComponent/birthdayInputs/useBirthdayLocations.jsx": [
+    "/build/assets/Birthday-DKNZCmOb.js",
+    "/build/assets/Birthday-BAXOVQkP.css"
+  ],
+  "resources/js/fagnoon_app/components/birthdayPageComponent/birthdayKidsCount/BirthdayKidsCount.jsx": [
+    "/build/assets/Birthday-DKNZCmOb.js",
+    "/build/assets/Birthday-BAXOVQkP.css"
+  ],
+  "resources/js/fagnoon_app/components/birthdayPageComponent/birthdayKidsCount/birthdayKidsCount.css": [
+    "/build/assets/Birthday-DKNZCmOb.js",
+    "/build/assets/Birthday-BAXOVQkP.css"
+  ],
+  "resources/js/fagnoon_app/components/navbar/Navbar.jsx": [
+    "/build/assets/Navbar-DpiuqVvx.js",
+    "/build/assets/Navbar-BLbzbCxW.css"
+  ],
+  "resources/js/fagnoon_app/components/navbar/navbar.css": [
+    "/build/assets/Navbar-DpiuqVvx.js",
+    "/build/assets/Navbar-BLbzbCxW.css"
+  ],
+  "resources/js/fagnoon_app/components/sidebarNav/SidebarNav.jsx": [
+    "/build/assets/Navbar-DpiuqVvx.js",
+    "/build/assets/Navbar-BLbzbCxW.css"
+  ],
+  "resources/js/fagnoon_app/components/sidebarNav/sidebarNav.css": [
+    "/build/assets/Navbar-DpiuqVvx.js",
+    "/build/assets/Navbar-BLbzbCxW.css"
+  ],
+  "resources/js/fagnoon_app/components/tripsPageComponents/tripsInfo/TripsInfo.jsx": [
+    "/build/assets/Trips-mAPMzXVK.js",
+    "/build/assets/Trips-T7nD8Kkl.css"
+  ],
+  "resources/js/fagnoon_app/components/tripsPageComponents/tripsInfo/tripsInfo.css": [
+    "/build/assets/Trips-mAPMzXVK.js",
+    "/build/assets/Trips-T7nD8Kkl.css"
+  ],
+  "resources/js/fagnoon_app/components/tripsPageComponents/tripsInputs/TripsInputs.jsx": [
+    "/build/assets/Trips-mAPMzXVK.js",
+    "/build/assets/Trips-T7nD8Kkl.css"
+  ],
+  "resources/js/fagnoon_app/components/tripsPageComponents/tripsInputs/addSchoolDialog/AddSchoolDialog.jsx": [
+    "/build/assets/Trips-mAPMzXVK.js",
+    "/build/assets/Trips-T7nD8Kkl.css"
+  ],
+  "resources/js/fagnoon_app/components/tripsPageComponents/tripsInputs/generalAccordion/GeneralAccordion.jsx": [
+    "/build/assets/Trips-mAPMzXVK.js",
+    "/build/assets/Trips-T7nD8Kkl.css"
+  ],
+  "resources/js/fagnoon_app/components/tripsPageComponents/tripsInputs/generalAccordion/generalAccordion.css": [
+    "/build/assets/Trips-mAPMzXVK.js",
+    "/build/assets/Trips-T7nD8Kkl.css"
+  ],
+  "resources/js/fagnoon_app/components/tripsPageComponents/tripsInputs/generalAccordion/generalInputDialog/GeneralInputDialog.jsx": [
+    "/build/assets/Trips-mAPMzXVK.js",
+    "/build/assets/Trips-T7nD8Kkl.css"
+  ],
+  "resources/js/fagnoon_app/components/tripsPageComponents/tripsInputs/schoolGradeInput/SchoolGradeInput.jsx": [
+    "/build/assets/Trips-mAPMzXVK.js",
+    "/build/assets/Trips-T7nD8Kkl.css"
+  ],
+  "resources/js/fagnoon_app/components/tripsPageComponents/tripsInputs/schoolGradeInput/schoolGradeInput.css": [
+    "/build/assets/Trips-mAPMzXVK.js",
+    "/build/assets/Trips-T7nD8Kkl.css"
+  ],
+  "resources/js/fagnoon_app/components/tripsPageComponents/tripsInputs/schoolNameAccordion/SchoolNameAccordion.jsx": [
+    "/build/assets/Trips-mAPMzXVK.js",
+    "/build/assets/Trips-T7nD8Kkl.css"
+  ],
+  "resources/js/fagnoon_app/components/tripsPageComponents/tripsInputs/schoolNameAccordion/schoolNameAccordion.css": [
+    "/build/assets/Trips-mAPMzXVK.js",
+    "/build/assets/Trips-T7nD8Kkl.css"
+  ],
+  "resources/js/fagnoon_app/components/tripsPageComponents/tripsInputs/tripsChildrenAge/TripsChildrenAge.jsx": [
+    "/build/assets/Trips-mAPMzXVK.js",
+    "/build/assets/Trips-T7nD8Kkl.css"
+  ],
+  "resources/js/fagnoon_app/components/tripsPageComponents/tripsInputs/tripsChildrenAge/tripsChildrenAge.css": [
+    "/build/assets/Trips-mAPMzXVK.js",
+    "/build/assets/Trips-T7nD8Kkl.css"
+  ],
+  "resources/js/fagnoon_app/components/tripsPageComponents/tripsInputs/tripsExtraActivity/TripsExtraActivity.jsx": [
+    "/build/assets/Trips-mAPMzXVK.js",
+    "/build/assets/Trips-T7nD8Kkl.css"
+  ],
+  "resources/js/fagnoon_app/components/tripsPageComponents/tripsInputs/tripsExtraActivity/tripsExtraActivity.css": [
+    "/build/assets/Trips-mAPMzXVK.js",
+    "/build/assets/Trips-T7nD8Kkl.css"
+  ],
+  "resources/js/fagnoon_app/components/tripsPageComponents/tripsInputs/tripsInputs.css": [
+    "/build/assets/Trips-mAPMzXVK.js",
+    "/build/assets/Trips-T7nD8Kkl.css"
+  ],
+  "resources/js/fagnoon_app/contexts/BirthdayFormContext.jsx": [
+    "/build/assets/Birthday-DKNZCmOb.js",
+    "/build/assets/Birthday-BAXOVQkP.css"
+  ],
+  "resources/js/fagnoon_app/contexts/EventDataContext.jsx": [
+    "/build/assets/Birthday-DKNZCmOb.js",
+    "/build/assets/Birthday-BAXOVQkP.css"
+  ],
+  "resources/js/fagnoon_app/contexts/TripFormContext.jsx": [
+    "/build/assets/Trips-mAPMzXVK.js",
+    "/build/assets/Trips-T7nD8Kkl.css"
+  ],
+  "resources/js/fagnoon_app/contexts/UserAuthContext.jsx": [
+    "/build/assets/Navbar-DpiuqVvx.js",
+    "/build/assets/Navbar-BLbzbCxW.css"
   ],
   "resources/js/ssr.jsx": [],
   "vendor/tightenco/ziggy/dist/index.js": []

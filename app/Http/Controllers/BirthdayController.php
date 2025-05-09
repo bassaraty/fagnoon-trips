@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Birthday;
 use App\Models\Package;
 use App\Models\Location;
+use App\Models\Activity; // Added Activity model
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -39,9 +40,7 @@ class BirthdayController extends Controller
                 "required",
                 "date",
                 "after_or_equal:today",
-                // Custom rule for one booking per location per day (shared with Reservations)
-                // This rule should ideally be in a custom FormRequest or a shared service if it gets complex
-                Rule::unique("reservations", "reservation_date")->where(function ($query) use ($request) {
+                Rule::unique("trips", "reservation_date")->where(function ($query) use ($request) { // Check against trips table
                     return $query->where("location_id", $request->location_id);
                 }),
                 Rule::unique("birthdays", "event_date")->where(function ($query) use ($request) {
@@ -62,13 +61,18 @@ class BirthdayController extends Controller
         }
 
         $validatedData = $validator->validated();
-        $validatedData["user_id"] = Auth::id();
-        
         $package = Package::find($validatedData["package_id"]);
+
+        // Package/Activity Limits Validation
+        if ($package && isset($validatedData["activity_ids"])) {
+            if (count($validatedData["activity_ids"]) > $package->number_of_activities) {
+                 return response()->json(["activity_ids" => ["Number of selected activities exceeds the limit for this package."]], 422);
+            }
+        }
+
+        $validatedData["user_id"] = Auth::id();
         $startTime = Carbon::parse($validatedData["start_time"]);
         $validatedData["end_time"] = $startTime->copy()->addHours($package->duration_hours ?? 3)->format("H:i:s"); 
-
-        // Placeholder for package/activity limits
 
         $birthday = Birthday::create($validatedData);
 
@@ -112,7 +116,7 @@ class BirthdayController extends Controller
                 "required",
                 "date",
                 "after_or_equal:today",
-                Rule::unique("reservations", "reservation_date")->where(function ($query) use ($request, $birthday) {
+                Rule::unique("trips", "reservation_date")->where(function ($query) use ($request, $birthday) { // Check against trips table
                     return $query->where("location_id", $request->location_id ?? $birthday->location_id);
                 }),
                 Rule::unique("birthdays", "event_date")->where(function ($query) use ($request, $birthday) {
@@ -138,9 +142,17 @@ class BirthdayController extends Controller
         }
 
         $validatedData = $validator->validated();
+        $package = Package::find($validatedData["package_id"] ?? $birthday->package_id);
+
+        // Package/Activity Limits Validation
+        if ($package && isset($validatedData["activity_ids"])) {
+            if (count($validatedData["activity_ids"]) > $package->number_of_activities) {
+                 return response()->json(["activity_ids" => ["Number of selected activities exceeds the limit for this package."]], 422);
+            }
+        }
 
         if (isset($validatedData["package_id"])) {
-            $package = Package::find($validatedData["package_id"]);
+            // $package variable is already set from above
             if (isset($validatedData["start_time"])) {
                  $startTime = Carbon::parse($validatedData["start_time"]);
                  $validatedData["end_time"] = $startTime->copy()->addHours($package->duration_hours ?? 3)->format("H:i:s");
@@ -149,13 +161,11 @@ class BirthdayController extends Controller
                  $validatedData["end_time"] = $startTime->copy()->addHours($package->duration_hours ?? 3)->format("H:i:s");
             }
         } elseif (isset($validatedData["start_time"])) {
-            $package = $birthday->package; // Use existing package
+            $package = $birthday->package; // Use existing package if not changed
             $startTime = Carbon::parse($validatedData["start_time"]);
             $validatedData["end_time"] = $startTime->copy()->addHours($package->duration_hours ?? 3)->format("H:i:s");
         }
         
-        // Placeholder for package/activity limits
-
         $birthday->update($validatedData);
 
         if ($request->has("activity_ids")) {

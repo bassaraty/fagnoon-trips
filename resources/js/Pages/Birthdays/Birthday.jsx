@@ -1,4 +1,4 @@
-import BirthdayInputs from "../../components/birthdayPageComponent/birthdayInputs/BirthdayInputs";
+import BirthdayInputs from "../../fagnoon_app/components/birthdayPageComponent/birthdayInputs/BirthdayInputs.jsx";
 import "./birthday.css";
 
 export default function Birthday() {
@@ -8,3 +8,4 @@ export default function Birthday() {
     </div>
   );
 }
+

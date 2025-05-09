@@ -1,4 +1,4 @@
-import TripsInputs from "../../components/tripsPageComponents/tripsInputs/TripsInputs";
+import TripsInputs from "../../fagnoon_app/components/tripsPageComponents/tripsInputs/TripsInputs.jsx";
 import "./trips.css";
 
 export default function Trips() {
@@ -8,3 +8,4 @@ export default function Trips() {
     </div>
   );
 }
+

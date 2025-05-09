@@ -189,7 +189,7 @@ class PaymentController extends Controller
             }
 
             $file = $request->file("payment_slip");
-            $filename = टाइम() . "_" . $file->getClientOriginalName();
+            $filename = time() . "_" . $file->getClientOriginalName();
             $path = $file->storeAs("payment_slips/" . $payable->getTable() . "/" . $payable->id, $filename, "public");
             
             $payment->update([

@@ -339,13 +339,13 @@ function T(t4, e2, r2, n2) {
   const o2 = new N(t4, e2, r2, n2);
   return t4 ? o2.toString() : o2;
 }
-const appName = "Laravel";
+const appName = "FagnoonMonolith";
 createServer(
   (page) => createInertiaApp({
     page,
     render: ReactDOMServer.renderToString,
     title: (title) => `${title} - ${appName}`,
-    resolve: (name) => resolvePageComponent(`./Pages/${name}.jsx`, /* @__PURE__ */ Object.assign({ "./Pages/Auth/ConfirmPassword.jsx": () => import("./assets/ConfirmPassword-Cog1aTfl.js"), "./Pages/Auth/ForgotPassword.jsx": () => import("./assets/ForgotPassword-BR3ZYUOk.js"), "./Pages/Auth/Login.jsx": () => import("./assets/Login-k_uwSuAI.js"), "./Pages/Auth/Register.jsx": () => import("./assets/Register-DRD0RTGe.js"), "./Pages/Auth/ResetPassword.jsx": () => import("./assets/ResetPassword-CKoqbDDE.js"), "./Pages/Auth/VerifyEmail.jsx": () => import("./assets/VerifyEmail-B9lllJvf.js"), "./Pages/Dashboard.jsx": () => import("./assets/Dashboard-arfpFOCm.js"), "./Pages/Profile/Edit.jsx": () => import("./assets/Edit-BW2-8tG8.js"), "./Pages/Profile/Partials/DeleteUserForm.jsx": () => import("./assets/DeleteUserForm-ChEnN-Yb.js"), "./Pages/Profile/Partials/UpdatePasswordForm.jsx": () => import("./assets/UpdatePasswordForm-DLYO_4lN.js"), "./Pages/Profile/Partials/UpdateProfileInformationForm.jsx": () => import("./assets/UpdateProfileInformationForm-DPCxI1p7.js"), "./Pages/Welcome.jsx": () => import("./assets/Welcome-CHWsJynh.js") })),
+    resolve: (name) => resolvePageComponent(`./Pages/${name}.jsx`, /* @__PURE__ */ Object.assign({ "./Pages/Auth/ConfirmPassword.jsx": () => import("./assets/ConfirmPassword-Cog1aTfl.js"), "./Pages/Auth/ForgotPassword.jsx": () => import("./assets/ForgotPassword-BR3ZYUOk.js"), "./Pages/Auth/Login.jsx": () => import("./assets/Login-k_uwSuAI.js"), "./Pages/Auth/Register.jsx": () => import("./assets/Register-DRD0RTGe.js"), "./Pages/Auth/ResetPassword.jsx": () => import("./assets/ResetPassword-CKoqbDDE.js"), "./Pages/Auth/VerifyEmail.jsx": () => import("./assets/VerifyEmail-B9lllJvf.js"), "./Pages/Birthdays/Birthday.jsx": () => import("./assets/Birthday-DKNZCmOb.js"), "./Pages/Dashboard.jsx": () => import("./assets/Dashboard-arfpFOCm.js"), "./Pages/Profile/Edit.jsx": () => import("./assets/Edit-BW2-8tG8.js"), "./Pages/Profile/Partials/DeleteUserForm.jsx": () => import("./assets/DeleteUserForm-ChEnN-Yb.js"), "./Pages/Profile/Partials/UpdatePasswordForm.jsx": () => import("./assets/UpdatePasswordForm-DLYO_4lN.js"), "./Pages/Profile/Partials/UpdateProfileInformationForm.jsx": () => import("./assets/UpdateProfileInformationForm-DPCxI1p7.js"), "./Pages/Trips/Trips.jsx": () => import("./assets/Trips-mAPMzXVK.js"), "./Pages/Welcome.jsx": () => import("./assets/Welcome-CHWsJynh.js") })),
     setup: ({ App, props }) => {
       global.route = (name, params, absolute) => T(name, params, absolute, {
         ...page.props.ziggy,
