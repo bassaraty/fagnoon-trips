@@ -1,0 +1,72 @@
+.eventsContent {
+  padding: 60px 80px;
+}
+
+@media (max-width: 567px) {
+  .eventsContent {
+    padding: 30px 40px;
+  }
+}
+
+/* card content filter and search start styles */
+
+.eventsContentDisplayType {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.eventsContentDisplayTypeIcon {
+  width: 24.5px;
+  height: 24.5px;
+}
+
+.eventsContentDisplayTypeList {
+  background-color: #ebebeb !important;
+  color: #d95054 !important;
+  border-radius: 15px !important;
+  border: none !important;
+  outline: none !important;
+}
+
+.eventsContentDisplayTypeList:hover {
+  border: none !important;
+  outline: none !important;
+}
+
+.eventsContentSearchAndFilter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+.eventsContentSearchWrapper {
+  flex: 0.5;
+}
+
+@media (max-width: 567px) {
+  .eventsContentSearchWrapper {
+    flex: 1;
+  }
+}
+
+.eventsContentSearchContainer {
+  padding: 2px 4px !important;
+  display: flex !important;
+  align-items: center !important;
+  border-radius: 15px !important;
+  background-color: #fbe3e3 !important;
+  box-shadow: none !important;
+}
+
+.eventsContentSearch {
+  margin-left: 1px;
+  flex: 1;
+}
+
+/* card content filter and search end styles */

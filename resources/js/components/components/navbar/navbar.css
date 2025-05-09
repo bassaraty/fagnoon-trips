@@ -1,0 +1,56 @@
+.navbarInfoUserContainer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.navbarInfoUserTime {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.navbarInfoUserTimeImg {
+  max-width: 100%;
+  width: 26px;
+  height: 26px;
+}
+
+.navbarInfoUserTimeText {
+  color: #767674;
+  margin: 0;
+}
+
+.navbarInfoUserDate {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.navbarInfoUserDateImg {
+  max-width: 100%;
+}
+
+.navbarInfoUserDateText {
+  color: #767674;
+  margin: 0;
+}
+
+.navbarInfoUsername {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.navbarInfoUsernameProfile {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.navbarInfoUsernameText {
+  color: #767674;
+  margin: 0;
+  font-weight: 600;
+}

@@ -1,0 +1,36 @@
+/* breadcrumbs styles start */
+
+.attendanceMenuInfoBreadcrumbsContainer {
+  margin-top: 10px;
+  background-color: #ebebeb;
+  padding: 10px 15px;
+  border-radius: 7px;
+}
+
+.attendanceMenuInfoBreadcrumbs {
+  font-size: 14px;
+}
+
+.attendanceMenuInfoBreadcrumbs a {
+  color: #e50296 !important;
+  text-decoration: none;
+}
+
+.attendanceMenuInfoBreadcrumbs a:hover {
+  text-decoration: underline;
+}
+
+.attendanceMenuInfoBreadcrumbs .MuiTypography-root {
+  font-weight: 600;
+}
+
+.css-jhr02i-MuiBreadcrumbs-separator {
+  color: #e50296 !important;
+}
+
+/* breadcrumbs styles end */
+
+.attendanceMenuInfoTitle {
+  font-weight: 600;
+  color: #d95054;
+}

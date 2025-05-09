@@ -1,0 +1,203 @@
+.tripsInputs {
+  padding: 60px 80px;
+}
+
+@media (max-width: 567px) {
+  .tripsInputs {
+    padding: 30px 40px;
+  }
+}
+
+/* inputs form styles start */
+
+.tripsInputsForm {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.tripsInputsFormCard {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tripsInputsFormCardLabel {
+  margin: 0;
+  color: #7a7a7a;
+  font-weight: 600;
+}
+
+.tripsInputsFormCardInp {
+  border: none;
+  outline: none;
+  background-color: #efefef;
+  width: 100%;
+  min-height: 40px;
+  border-radius: 5px;
+  padding: 5px 16px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.tripsInputsFormCardInp:focus {
+  border: none;
+  outline: none;
+}
+
+/* for input type number style start */
+/* Chrome, Safari, Edge, Opera */
+input.tripsInputsFormCardInp::-webkit-outer-spin-button,
+input.tripsInputsFormCardInp::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input.tripsInputsFormCardInp[type="number"] {
+  -moz-appearance: textfield;
+}
+/* for input type number style end */
+
+.tripsInputsFormCardPayment {
+  gap: 100px;
+  color: #686868;
+}
+
+.tripsInputsFormCardPayment span {
+  font-weight: 600;
+}
+
+/* image payment style start */
+.tripsInputsPaymentImageContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  padding: 20px;
+  border: 1px dashed #ef585c;
+  cursor: pointer;
+  transition: background-color 0.5s;
+}
+
+.tripsInputsPaymentImageContainer:hover {
+  /* background-color: rgba(247, 150, 34, 0.1); */
+  background-color: rgba(239, 88, 92, 0.1);
+}
+
+.tripsInputsPaymentImageDragContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  color: #959595;
+  flex-direction: column;
+}
+
+.tripsInputsPaymentImageDragImg {
+  max-width: 100%;
+}
+
+.tripsInputsPaymentImageDragText,
+.tripsInputsPaymentImageBrowseText {
+  margin: 0;
+}
+
+.tripsInputsPaymentImageBrowseText {
+  color: #ef585c;
+}
+
+.paymentImagePreviewContainer {
+  margin: auto;
+}
+
+.paymentImagePreviewImgContainer {
+  position: relative;
+  width: fit-content;
+}
+
+.paymentImagePreview {
+  width: 150px;
+  height: 150px;
+  /* object-fit: cover; */
+  object-fit: contain;
+}
+
+.deletePaymentImageButton {
+  position: absolute;
+  border: none;
+  right: -10px;
+  top: -10px;
+  background-color: #161442;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.deletePaymentImageButtonIcon {
+  color: #ef585c;
+  width: 20px !important;
+  height: 20px !important;
+}
+/* image payment style end */
+
+/* inputs form styles end */
+
+/* trip inputs submit button styles start  */
+
+.tripsInputsFormSubmitAndCancel {
+  display: flex;
+  gap: 20px;
+  margin-top: 35px;
+  justify-content: center;
+}
+
+@media (max-width: 567px) {
+  .tripsInputsFormSubmitAndCancel {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.tripsInputsFormSubmitBtnContainer {
+  /* width: 100%; */
+  width: fit-content;
+}
+
+.tripsInputsFormSubmitBtn {
+  padding: 10px !important;
+  transition: background-color 0.3s !important;
+  width: 240px !important;
+}
+
+.tripsInputsFormCancelContainer {
+  /* width: 100%; */
+  width: fit-content;
+}
+
+.tripsInputsFormCancel {
+  padding: 10px !important;
+  border: 1px solid #949494 !important;
+  color: #949494 !important;
+  width: 240px !important;
+}
+
+/* trip inputs submit button styles end  */
+
+/* outer accordion styles start */
+
+.outerAccordionSummary {
+  background-color: #efefef !important;
+  color: #7a7a7a !important;
+  font-weight: 600 !important;
+}
+
+.outerAccordionDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* outer accordion styles end */

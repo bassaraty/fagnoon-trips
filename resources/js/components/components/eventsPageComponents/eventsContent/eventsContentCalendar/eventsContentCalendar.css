@@ -1,0 +1,544 @@
+.eventsContentCalendar {
+  width: 100%;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.calendarHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.calendarTitle h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+  color: #d95054;
+}
+
+.viewTypeButtons {
+  display: flex;
+  gap: 5px;
+}
+
+.viewButton {
+  padding: 6px 12px;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.viewButton:hover {
+  background-color: #e5e5e5;
+}
+
+.viewButton.activeView {
+  background-color: #d95054;
+  color: white;
+  border-color: #d95054;
+}
+
+.calendarNavigation {
+  display: flex;
+  gap: 10px;
+}
+
+.navButton,
+.todayButton {
+  padding: 8px 16px;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+  color: #7a7a7a;
+}
+
+.navButton:hover,
+.todayButton:hover {
+  background-color: #e5e5e5;
+}
+
+.todayButton {
+  background-color: #e6f7ff;
+  border-color: #91d5ff;
+  color: #1890ff;
+}
+
+.todayButton:hover {
+  background-color: #d6f0ff;
+}
+
+/* Month View Styles */
+.calendarGrid {
+  width: 100%;
+}
+
+.calendarDayNames {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.dayName {
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.calendarDays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-gap: 3px;
+}
+
+.calendarDay {
+  border: 1px solid #eee;
+  min-height: 100px;
+  padding: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  position: relative;
+}
+
+.calendarDay.today {
+  background-color: #e6f7ff;
+  border: 1px solid #91d5ff;
+}
+
+@media (max-width: 767px) {
+  .calendarDays {
+    grid-gap: 1px;
+  }
+
+  .calendarDay {
+    min-height: 60px;
+    padding: 4px;
+  }
+}
+
+@media (max-width: 567px) {
+  .calendarHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .calendarDays {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .calendarDay {
+    width: 100%;
+    min-height: 80px;
+    margin-bottom: 5px;
+  }
+}
+
+.calendarDay:hover {
+  background-color: #f9f9f9;
+}
+
+.dayNumber {
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 5px;
+  text-align: center;
+  color: #767674;
+}
+
+.calendarDay.today .dayNumber {
+  color: #1890ff;
+  font-weight: 600;
+}
+
+.otherMonth {
+  background-color: #f5f5f5;
+  color: #aaa;
+}
+
+.pastDay {
+  background-color: #fafafa;
+}
+
+.dayEvents {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.eventIndicator {
+  height: 20px;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.8rem;
+  color: white;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.eventName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.moreEvents {
+  font-size: 0.75rem;
+  color: #999;
+  text-align: center;
+  margin-top: 2px;
+}
+
+/* Week View Styles */
+.weekViewContainer {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.weekViewHeader {
+  display: grid;
+  grid-template-columns: 60px repeat(7, 1fr);
+  border-bottom: 1px solid #eee;
+}
+
+.weekViewHeaderDay {
+  text-align: center;
+  padding: 10px;
+  cursor: pointer;
+  border-left: 1px solid #eee;
+}
+
+.weekViewHeaderDay:hover {
+  background-color: #f9f9f9;
+}
+
+.weekViewHeaderDay.today {
+  background-color: #e6f7ff;
+}
+
+.weekDayName {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.weekDayNumber {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+.weekViewHeaderDay.today .weekDayNumber {
+  color: #1890ff;
+}
+
+.weekViewBody {
+  display: flex;
+  flex-direction: column;
+}
+
+.weekViewRow {
+  display: grid;
+  grid-template-columns: 60px repeat(7, 1fr);
+  border-bottom: 1px solid #eee;
+  min-height: 50px;
+}
+
+.weekViewTime {
+  padding: 8px;
+  background-color: #f9f9f9;
+  border-right: 1px solid #eee;
+  font-size: 0.8rem;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.weekViewCell {
+  padding: 3px;
+  border-left: 1px solid #eee;
+  position: relative;
+}
+
+.weekViewCell.today {
+  background-color: #f8f8ff;
+}
+
+.weekViewEvents {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.weekEventIndicator {
+  height: 20px;
+  border-radius: 3px;
+  padding: 2px 5px;
+  font-size: 0.75rem;
+  color: white;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+/* Day View Styles */
+.dayViewContainer {
+  width: 100%;
+}
+
+.dayViewHeader {
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.dayViewDate {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #d95054;
+}
+
+.dayViewBody {
+  display: flex;
+  flex-direction: column;
+}
+
+.dayViewRow {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  border-bottom: 1px solid #eee;
+  min-height: 60px;
+}
+
+.dayViewTime {
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-right: 1px solid #eee;
+  font-size: 0.9rem;
+  color: #666;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+.dayViewCell {
+  padding: 5px;
+  position: relative;
+}
+
+.dayViewEvents {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.dayEventIndicator {
+  min-height: 50px;
+  border-radius: 4px;
+  padding: 8px 10px;
+  color: white;
+  cursor: pointer;
+}
+
+.dayEventName {
+  font-weight: 500;
+  font-size: 0.95rem;
+  margin-bottom: 5px;
+}
+
+.dayEventLocation {
+  font-size: 0.8rem;
+  opacity: 0.9;
+}
+
+/* Selected Event Details */
+.selectedDateEvents {
+  margin-top: 20px;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+}
+
+.selectedDateEvents h3 {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  color: #e50296;
+}
+
+.eventsList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-gap: 15px;
+}
+
+.eventDetail {
+  border: 1px solid #eee;
+  border-radius: 6px;
+  padding: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.eventHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.eventStatus {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.eventStatus.paid {
+  background-color: #52c41a;
+}
+
+.eventStatus.unpaid {
+  background-color: #f5222d;
+}
+
+.eventHeader h4 {
+  margin: 0;
+  font-size: 1rem;
+  color: #d95054;
+}
+
+.eventInfo p {
+  margin: 5px 0;
+  font-size: 0.9rem;
+}
+
+.eventActions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.actionButton {
+  padding: 5px 10px;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.actionButton:hover {
+  background-color: #e5e5e5;
+}
+
+.addEventButton {
+  background-color: #1890ff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.addEventButton:hover {
+  background-color: #40a9ff;
+}
+
+/* Mobile responsiveness for week and day views */
+@media (max-width: 767px) {
+  .weekViewHeader {
+    grid-template-columns: 40px repeat(7, minmax(80px, 1fr));
+  }
+
+  .weekViewRow {
+    grid-template-columns: 40px repeat(7, minmax(80px, 1fr));
+  }
+
+  .weekViewTime,
+  .dayViewTime {
+    font-size: 0.7rem;
+    padding: 5px;
+  }
+
+  .dayViewRow {
+    grid-template-columns: 60px 1fr;
+  }
+
+  .weekDayName,
+  .weekDayNumber {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 567px) {
+  .weekViewContainer {
+    overflow-x: scroll;
+  }
+
+  .weekViewHeader,
+  .weekViewRow {
+    min-width: 700px;
+  }
+
+  .viewTypeButtons {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .calendarNavigation {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .eventsList {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Today highlight for all views */
+.today {
+  background-color: rgba(24, 144, 255, 0.05);
+}
+
+/* Transitions for view switching */
+.eventsContentCalendar {
+  transition: all 0.3s ease;
+}
+
+.calendarGrid,
+.weekViewContainer,
+.dayViewContainer {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

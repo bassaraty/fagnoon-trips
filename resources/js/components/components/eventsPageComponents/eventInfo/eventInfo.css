@@ -1,0 +1,31 @@
+/* breadcrumbs styles start */
+
+.eventInfoBreadcrumbsContainer {
+  margin-top: 10px;
+  background-color: #ebebeb;
+  padding: 10px 15px;
+  border-radius: 7px;
+}
+
+.eventInfoBreadcrumbs {
+  font-size: 14px;
+}
+
+.eventInfoBreadcrumbs a {
+  color: #e50296 !important;
+  text-decoration: none;
+}
+
+.eventInfoBreadcrumbs a:hover {
+  text-decoration: underline;
+}
+
+.eventInfoBreadcrumbs .MuiTypography-root {
+  font-weight: 600;
+}
+
+.css-jhr02i-MuiBreadcrumbs-separator {
+  color: #e50296 !important;
+}
+
+/* breadcrumbs styles end */

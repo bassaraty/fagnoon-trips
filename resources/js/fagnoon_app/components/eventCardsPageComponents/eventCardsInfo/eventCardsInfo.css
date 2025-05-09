@@ -1,0 +1,86 @@
+.eventCardsInfoUserContainer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.eventCardsInfoUserTime {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.eventCardsInfoUserTimeImg {
+  max-width: 100%;
+}
+
+.eventCardsInfoUserTimeText {
+  color: #767674;
+  margin: 0;
+}
+
+.eventCardsInfoUserDate {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.eventCardsInfoUserDateImg {
+  max-width: 100%;
+}
+
+.eventCardsInfoUserDateText {
+  color: #767674;
+  margin: 0;
+}
+
+.eventCardsInfoUsername {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.eventCardsInfoUsernameProfile {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.eventCardsInfoUsernameText {
+  color: #767674;
+  margin: 0;
+  font-weight: 600;
+}
+
+/* breadcrumbs styles start */
+
+.eventCardsInfoBreadcrumbsContainer {
+  margin-top: 10px;
+  background-color: #ebebeb;
+  padding: 10px 15px;
+  border-radius: 7px;
+}
+
+.eventCardsInfoBreadcrumbs {
+  font-size: 14px;
+}
+
+.eventCardsInfoBreadcrumbs a {
+  color: #e50296 !important;
+  text-decoration: none;
+}
+
+.eventCardsInfoBreadcrumbs a:hover {
+  text-decoration: underline;
+}
+
+.eventCardsInfoBreadcrumbs .MuiTypography-root {
+  font-weight: 600;
+}
+
+.css-jhr02i-MuiBreadcrumbs-separator {
+  color: #e50296 !important;
+}
+
+/* breadcrumbs styles end */

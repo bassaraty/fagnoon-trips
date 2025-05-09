@@ -1,0 +1,42 @@
+/* Accordion styles starts */
+.tripsInputsFormCardAccordion {
+  background-color: #efefef !important;
+  box-shadow: none !important;
+}
+
+.tripsInputsFormCardAccordionTitle {
+  color: #767674;
+  font-weight: 400;
+}
+
+.tripsInputsFormCardAccordionDetails {
+  color: #7a7a7a;
+  font-weight: 400;
+  background-color: #ffeaeb;
+}
+
+.tripsInputsFormCardAccordionAddNewFieldContainer {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+  align-items: center;
+  width: fit-content;
+  cursor: pointer;
+}
+
+.tripsInputsFormCardAccordionAddNewFieldIconContainer {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #ef585c;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  color: #fff;
+}
+
+.tripsInputsFormCardAccordionAddNewFieldText {
+  margin: 0;
+  color: #7a7a7a;
+}
+/* Accordion styles end */

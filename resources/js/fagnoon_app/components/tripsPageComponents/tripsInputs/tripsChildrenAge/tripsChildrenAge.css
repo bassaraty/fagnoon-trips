@@ -1,0 +1,48 @@
+.customNumberInputContainer {
+  position: relative;
+  width: 100%;
+}
+
+.customNumberInput {
+  border: none;
+  outline: none;
+  background-color: #efefef;
+  width: 100%;
+  min-height: 40px;
+  border-radius: 5px;
+  padding: 5px 16px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.customNumberInput:focus {
+  border: none;
+  outline: none;
+}
+
+.customNumberInputButtons {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 5px;
+}
+
+.customNumberInputButton {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  color: #7a7a7a;
+  font-size: 25px;
+  transition: all 0.5s;
+}
+
+.customNumberInputButtonPlus:hover {
+  color: #44a047;
+}
+
+.customNumberInputButtonMinus:hover {
+  color: #ef585c;
+}

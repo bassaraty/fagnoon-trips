@@ -1,0 +1,116 @@
+.signInFormWrapper {
+  padding: 50px 140px;
+}
+
+@media (max-width: 567px) {
+  .signInFormWrapper {
+    padding: 50px 40px;
+  }
+}
+
+.signInFormWrapperImgContainer {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.signInFormWrapperImg {
+  max-width: 100%;
+}
+
+.signInFormWrapperTitle {
+  font-weight: 600;
+  color: #d95054;
+  font-size: 32px;
+  margin: 0 0 15px;
+}
+
+.signInFormWrapperSubTitle {
+  font-weight: 500;
+  color: #686868;
+  font-size: 20px;
+  margin-top: 0;
+}
+
+/* inputs styles starts */
+
+.signInForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.signInFormChip {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.passwordContainer {
+  position: relative;
+}
+
+.passwordInputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.passwordToggleIcon {
+  position: absolute !important;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.signInFormChipInpLabel {
+  color: #7a7a7a;
+  font-weight: 600;
+  margin: 0;
+}
+
+.signInFormChipInp {
+  border: none;
+  outline: none;
+  background-color: #efefef;
+  width: 100%;
+  min-height: 40px;
+  border-radius: 5px;
+  padding: 5px 16px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.signInFormChipInp:focus {
+  border: none;
+  outline: none;
+}
+
+.signInFormCheckContainerAndForget {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.signInFormCheckContainer span {
+  color: #d95054;
+}
+
+.signInFormForgetBtn {
+  color: #51819d !important;
+}
+
+.signInFormBtn {
+  width: 100%;
+  padding: 10px !important;
+}
+
+/* inputs styles ends */
+
+.signInFormComponentImg {
+  max-width: 100%;
+  width: 100%;
+  min-height: 100vh;
+  height: 100vh;
+  display: block;
+  object-fit: cover;
+}

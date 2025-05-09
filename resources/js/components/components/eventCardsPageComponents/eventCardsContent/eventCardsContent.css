@@ -1,0 +1,142 @@
+.eventCardsContent {
+  padding: 60px 80px;
+}
+
+@media (max-width: 567px) {
+  .eventCardsContent {
+    padding: 30px 40px;
+  }
+}
+
+/* card content filter and search start styles */
+
+.eventCardsContentDisplayType {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.eventCardsContentDisplayTypeList {
+  background-color: #ebebeb !important;
+  color: #d95054 !important;
+  border-radius: 15px !important;
+  border: none !important;
+  outline: none !important;
+}
+
+.eventCardsContentDisplayTypeList:hover {
+  border: none !important;
+  outline: none !important;
+}
+
+.eventCardsContentSearchAndFilter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+.eventCardsContentSearchWrapper {
+  flex: 0.5;
+}
+
+@media (max-width: 567px) {
+  .eventCardsContentSearchWrapper {
+    flex: 1;
+  }
+}
+
+.eventCardsContentSearchContainer {
+  padding: 2px 4px !important;
+  display: flex !important;
+  align-items: center !important;
+  border-radius: 15px !important;
+  background-color: #fbe3e3 !important;
+  box-shadow: none !important;
+}
+
+.eventCardsContentSearch {
+  margin-left: 1px;
+  flex: 1;
+}
+
+/* card content filter and search end styles */
+
+/* card style start */
+
+.eventCardsContentCard {
+  background-color: #efefef;
+  border-radius: 5px;
+  padding: 10px 20px;
+  box-sizing: border-box;
+}
+
+.eventCardsContentCardTitleAndIcons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.eventCardsContentCardTitle {
+  color: #3c6c88;
+  font-weight: 700;
+  margin: 0;
+}
+
+.eventCardsContentCardIcons {
+  display: flex;
+  gap: 10px;
+}
+
+.eventCardsContentCardIcon {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.eventCardsContentCardDate {
+  color: #d95054;
+  font-weight: 500;
+}
+
+.eventCardsContentCardNumber {
+  color: #6f6f6f;
+  font-size: 14px;
+}
+
+.eventCardsContentCardPackage {
+  color: #6f6f6f;
+  font-size: 14px;
+}
+
+.eventCardsContentCardPaidStatus {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.eventCardsContentCardPaidStatusColor {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.eventCardsContentCardPaidStatusColor.paid {
+  background-color: #44a047;
+}
+
+.eventCardsContentCardPaidStatusColor.unpaid {
+  background-color: #ff181c;
+}
+
+.eventCardsContentCardPaidStatusText {
+  font-weight: 300;
+  color: #6f6f6f;
+  margin: 0;
+}
+
+/* card style end */

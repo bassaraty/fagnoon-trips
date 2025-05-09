@@ -1,0 +1,56 @@
+Fagnoon Reservation System Conversion
+Todo List
+• [X] Step 1: Analyze Current System
+• [X] Gather information about the existing Fagnoon Reservation System
+(architecture, technologies, features).
+• [X] Identify all frontend components, views, and assets.
+• [X] Identify all backend API endpoints, business logic, and database schema.
+• [X] Understand the existing authentication and authorization mechanisms.
+• [X] Step 2: Setup Development Environment
+• [X] Install PHP, Composer, Node.js, npm/yarn.
+• [X] Install Laravel globally or via Composer.
+• [X] Set up a local database (e.g., MySQL, PostgreSQL).
+• [X] Step 3: Create Laravel + Vite Project
+• [X] Create a new Laravel project.
+• [X] Install and configure Vite for Laravel.
+• [X] Set up basic project structure (directories for controllers, models, views,
+frontend assets).
+• [-] Step 4: Migrate Backend Code (Database schema migrated. Models/controllers
+will follow.)
+• [ ] Recreate database schema using Laravel migrations.
+• [ ] Port existing backend models to Laravel Eloquent models.
+• [ ] Re-implement API endpoints as Laravel routes and controllers.
+• [ ] Migrate business logic to appropriate Laravel service classes or controllers.
+• [ ] Seed database with any necessary initial data.
+• [ ] Step 5: Integrate Frontend with Vite (React components copied, dependencies
+installed, working on resolving MUI Grid2 issue)
+• [ ] Move existing frontend code (e.g., React, Vue, Angular components, styles,
+images) into the Laravel project's resources/js and resources/css directories.
+• [ ] Configure Vite to compile frontend assets.
+• [ ] Update frontend code to make API calls to the new Laravel backend routes
+(same origin).
+• [ ] Ensure frontend routing works correctly within the Laravel application (e.g.,
+using Laravel's routing for initial page load and client-side routing for SPA
+navigation).
+• [ ] Step 6: Implement Authentication System
+
+• [ ] Implement user authentication using Laravel's built-in features (e.g., Breeze,
+Jetstream) or a custom solution.
+• [ ] Ensure session management works correctly for the monolithic application.
+• [ ] Secure API endpoints with authentication middleware.
+• [ ] Step 7: Test Functionality and Fix Issues
+• [ ] Perform thorough testing of all features of the reservation system.
+• [ ] Test user registration, login, and logout.
+• [ ] Test reservation creation, viewing, updating, and deletion.
+• [ ] Verify that all API calls are working correctly and there are no CORS or session
+issues.
+• [ ] Ensure the frontend UI and UX are identical to the current SPA.
+• [ ] Perform cross-browser and responsive design testing.
+• [ ] Step 8: Deploy and Document Solution
+• [ ] Prepare the application for deployment (e.g., optimize assets, configure
+environment variables).
+• [ ] Deploy the monolithic application to a suitable hosting environment.
+• [ ] Create documentation for the new system, including setup, architecture, and
+any changes made.
+
+

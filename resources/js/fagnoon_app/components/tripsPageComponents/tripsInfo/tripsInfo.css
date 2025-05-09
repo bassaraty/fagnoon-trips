@@ -1,0 +1,36 @@
+/* breadcrumbs styles start */
+
+.tripsInfoBreadcrumbsContainer {
+  margin-top: 10px;
+  background-color: #ebebeb;
+  padding: 10px 15px;
+  border-radius: 7px;
+}
+
+.tripsInfoBreadcrumbs {
+  font-size: 14px;
+}
+
+.tripsInfoBreadcrumbs a {
+  color: #e50296 !important;
+  text-decoration: none;
+}
+
+.tripsInfoBreadcrumbs a:hover {
+  text-decoration: underline;
+}
+
+.tripsInfoBreadcrumbs .MuiTypography-root {
+  font-weight: 600;
+}
+
+.css-jhr02i-MuiBreadcrumbs-separator {
+  color: #e50296 !important;
+}
+
+/* breadcrumbs styles end */
+
+.tripsInfoTitle {
+  font-weight: 600;
+  color: #d95054;
+}
