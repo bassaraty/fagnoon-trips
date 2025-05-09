@@ -16,6 +16,7 @@ jobs:
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
           MYSQL_DATABASE: laravel_test
+          MYSQL_ROOT_PASSWORD: ""
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -31,12 +32,12 @@ jobs:
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
     - name: Update .env with test database config
       run: |
-        sed -i "s/DB_CONNECTION=sqlite/DB_CONNECTION=mysql/g" .env
-        sed -i "s/DB_HOST=127.0.0.1/DB_HOST=127.0.0.1/g" .env
-        sed -i "s/DB_PORT=3306/DB_PORT=3306/g" .env
-        sed -i "s/DB_DATABASE=laravel/DB_DATABASE=laravel_test/g" .env
-        sed -i "s/DB_USERNAME=root/DB_USERNAME=root/g" .env
-        sed -i "s/DB_PASSWORD=/DB_PASSWORD=/g" .env
+        sed -i 's/DB_CONNECTION=sqlite/DB_CONNECTION=mysql/g' .env
+        sed -i 's/DB_HOST=127.0.0.1/DB_HOST=mysql/g' .env # Changed to mysql service name
+        sed -i 's/DB_PORT=3306/DB_PORT=3306/g' .env
+        sed -i 's/DB_DATABASE=laravel/DB_DATABASE=laravel_test/g' .env
+        sed -i 's/DB_USERNAME=root/DB_USERNAME=root/g' .env
+        sed -i 's/DB_PASSWORD=/DB_PASSWORD=/g' .env
     - name: Install Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --prefer-dist --ignore-platform-reqs
     - name: Generate key
