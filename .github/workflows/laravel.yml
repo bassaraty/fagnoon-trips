@@ -59,11 +59,13 @@ jobs:
           php artisan view:clear &&
           php artisan event:clear
 
-      - name: Run Migrations
+      - name: Run Migrations and Seeders # Changed step name
         env:
           DB_CONNECTION: "sqlite"
           DB_DATABASE: ":memory:"
-        run: php artisan migrate --force
+        run: | # Changed to multi-line run
+          php artisan migrate --force
+          php artisan db:seed # Added this line
 
       - name: Run Tests
         env:
