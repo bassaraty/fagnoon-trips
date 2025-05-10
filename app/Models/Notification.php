@@ -4,10 +4,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Concerns\HasUuids; // Import HasUuids
 
 class Notification extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuids; // Add HasUuids trait
+
+    /**
+     * The "type" of the primary key ID.
+     *
+     * @var string
+     */
+    protected $keyType = 'string';
+
+    /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
 
     protected $fillable = [
         'user_id',
@@ -26,6 +41,7 @@ class Notification extends Model
     protected $casts = [
         'data' => 'array',
         'read_at' => 'datetime',
+        'id' => 'string' // Cast UUID to string
     ];
 
     /**

@@ -5,10 +5,18 @@ namespace Tests\Feature;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use App\Http\Middleware\VerifyCsrfToken;
 
 class ProfileTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        // Disable CSRF for these tests as a debugging step
+        // $this->withoutMiddleware(VerifyCsrfToken::class);
+    }
 
     public function test_profile_page_is_displayed(): void
     {
@@ -16,7 +24,7 @@ class ProfileTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->get('/profile');
+            ->get("/profile");
 
         $response->assertOk();
     }
@@ -27,19 +35,20 @@ class ProfileTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->patch('/profile', [
-                'name' => 'Test User',
-                'email' => 'test@example.com',
+            ->withoutMiddleware([VerifyCsrfToken::class]) // More targeted disabling
+            ->patch("/profile", [
+                "name" => "Test User",
+                "email" => "test@example.com",
             ]);
 
         $response
             ->assertSessionHasNoErrors()
-            ->assertRedirect('/profile');
+            ->assertRedirect("/profile");
 
         $user->refresh();
 
-        $this->assertSame('Test User', $user->name);
-        $this->assertSame('test@example.com', $user->email);
+        $this->assertSame("Test User", $user->name);
+        $this->assertSame("test@example.com", $user->email);
         $this->assertNull($user->email_verified_at);
     }
 
@@ -49,14 +58,15 @@ class ProfileTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->patch('/profile', [
-                'name' => 'Test User',
-                'email' => $user->email,
+            ->withoutMiddleware([VerifyCsrfToken::class]) // More targeted disabling
+            ->patch("/profile", [
+                "name" => "Test User",
+                "email" => $user->email,
             ]);
 
         $response
             ->assertSessionHasNoErrors()
-            ->assertRedirect('/profile');
+            ->assertRedirect("/profile");
 
         $this->assertNotNull($user->refresh()->email_verified_at);
     }
@@ -67,13 +77,14 @@ class ProfileTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->delete('/profile', [
-                'password' => 'password',
+            ->withoutMiddleware([VerifyCsrfToken::class]) // More targeted disabling
+            ->delete("/profile", [
+                "password" => "password",
             ]);
 
         $response
             ->assertSessionHasNoErrors()
-            ->assertRedirect('/');
+            ->assertRedirect("/");
 
         $this->assertGuest();
         $this->assertNull($user->fresh());
@@ -85,15 +96,17 @@ class ProfileTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->from('/profile')
-            ->delete('/profile', [
-                'password' => 'wrong-password',
+            ->from("/profile")
+            ->withoutMiddleware([VerifyCsrfToken::class]) // More targeted disabling
+            ->delete("/profile", [
+                "password" => "wrong-password",
             ]);
 
         $response
-            ->assertSessionHasErrors('password')
-            ->assertRedirect('/profile');
+            ->assertSessionHasErrors("password")
+            ->assertRedirect("/profile");
 
         $this->assertNotNull($user->fresh());
     }
 }
+

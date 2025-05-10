@@ -11,12 +11,13 @@ class Payment extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'payable_id',
         'payable_type',
         'amount',
         'payment_method',
         'transaction_id',
-        'payment_proof_path',
+        'payment_slip_path', // Changed from payment_proof_path
         'status',
         'payment_date',
         'notes',
@@ -28,6 +29,14 @@ class Payment extends Model
     public function payable(): MorphTo
     {
         return $this->morphTo();
+    }
+
+    /**
+     * Get the user that the payment belongs to.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
 

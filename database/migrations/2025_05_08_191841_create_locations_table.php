@@ -14,7 +14,13 @@ return new class extends Migration
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('capacity')->nullable();
+            $table->string('address')->nullable(); // Added
+            $table->string('city')->nullable(); // Added
+            $table->string('state')->nullable(); // Added
+            $table->string('zip_code')->nullable(); // Added
+            $table->string('branch')->nullable(); // Added
+            $table->integer('max_capacity')->nullable(); // Changed from capacity
+            $table->text('description')->nullable(); // Added
             $table->timestamps();
         });
     }

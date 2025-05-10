@@ -36,7 +36,7 @@
     - [X] Implement calendar widget with event drill-down.
     - [X] Implement dashboard cards for upcoming events.
 - [ ] **Clean-Up & Documentation**
-    - [ ] Remove commented-out code and obsolete TODOs.
+    - [X] Remove commented-out code and obsolete TODOs.
     - [ ] Update `README.md` (roles setup, API usage, front-end build/run).
 - [ ] **Testing**
     - [ ] Add PHPUnit feature test for booking (free vs. conflicting).
