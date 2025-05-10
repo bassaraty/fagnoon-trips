@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash; // Import Hash facade
 
 class RolesAndPermissionsSeeder extends Seeder
 {
@@ -70,7 +71,7 @@ class RolesAndPermissionsSeeder extends Seeder
             ["email" => "admin@fagnoon.app"],
             [
                 "name" => "Admin User",
-                "password" => bcrypt("password"),
+                "password" => Hash::make("password"), // Use Hash::make()
                 "branch" => "HO" // Head Office
             ]
         );
@@ -81,7 +82,7 @@ class RolesAndPermissionsSeeder extends Seeder
             ["email" => "moa.agent@fagnoon.app"],
             [
                 "name" => "MOA Agent",
-                "password" => bcrypt("password"),
+                "password" => Hash::make("password"), // Use Hash::make()
                 "branch" => "MOA"
             ]
         );
@@ -94,7 +95,7 @@ class RolesAndPermissionsSeeder extends Seeder
             ["email" => "ho.agent@fagnoon.app"],
             [
                 "name" => "HO Agent",
-                "password" => bcrypt("password"),
+                "password" => Hash::make("password"), // Use Hash::make()
                 "branch" => "HO"
             ]
         );
@@ -107,11 +108,10 @@ class RolesAndPermissionsSeeder extends Seeder
             ["email" => "partyleader@fagnoon.app"],
             [
                 "name" => "Party Leader User",
-                "password" => bcrypt("password")
+                "password" => Hash::make("password") // Use Hash::make()
                 // Branch not typically relevant for party leaders
             ]
         );
         $partyLeaderUser->assignRole($partyLeaderRole);
     }
 }
-
