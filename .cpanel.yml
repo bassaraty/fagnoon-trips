@@ -1,0 +1,23 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/YOUR_CPANEL_USERNAME/fagnoon-trips/ # IMPORTANT: Replace YOUR_CPANEL_USERNAME
+    # If cPanel's Git deployment clones to a temporary directory first, uncomment the next line
+    # - /bin/cp -R * $DEPLOYPATH
+    - cd $DEPLOYPATH
+    # Ensure you use the correct path to your cPanel's PHP 8.2+ and Composer
+    # Example paths, verify with your hosting provider:
+    - /usr/local/bin/php /opt/cpanel/composer/bin/composer install --no-dev --optimize-autoloader
+    # If composer is in global path and PHP CLI is correctly set for the user:
+    # - composer install --no-dev --optimize-autoloader 
+    - /usr/local/bin/php artisan key:generate --force # Generate app key if not set
+    - /usr/local/bin/php artisan migrate --force
+    - /usr/local/bin/php artisan storage:link || echo 'Storage link already exists or failed, check manually.'
+    - /usr/local/bin/php artisan optimize:clear
+    - /usr/local/bin/php artisan config:cache
+    - /usr/local/bin/php artisan route:cache
+    - /usr/local/bin/php artisan view:cache
+    # Frontend asset compilation (Uncomment and adjust if you use npm/yarn)
+    # - npm install
+    # - npm run build
+
