@@ -40,10 +40,24 @@ jobs:
       - name: Directory Permissions
         run: chmod -R 777 storage bootstrap/cache
 
+      - name: Clear Laravel Cache (Initial)
+        run: php artisan config:clear
+
       - name: Publish Permission Config
         run: php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider" --tag="config" --force
 
-      - name: Clear Laravel Cache
+      - name: Debug Published Permission Config
+        run: |
+          echo "Checking for config/permission.php:"
+          ls -l config/
+          if [ -f config/permission.php ]; then
+            echo "Contents of config/permission.php:"
+            cat config/permission.php
+          else
+            echo "config/permission.php NOT FOUND."
+          fi
+
+      - name: Clear Laravel Cache (Post-Publish)
         run: >-
           php artisan config:clear &&
           php artisan cache:clear &&
