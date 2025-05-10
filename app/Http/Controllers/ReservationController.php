@@ -18,7 +18,14 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        $reservations = Reservation::where("user_id", Auth::id())->with(["location", "package", "activities"])->latest()->paginate(10);
+        // Policy can be applied here if needed, e.g., $this->authorize("viewAny", Reservation::class);
+        // Current logic: only show reservations for the authenticated user unless they are admin.
+        // If an admin should see all, the viewAny policy should handle that.
+        if (Auth::user()->hasRole("admin")) {
+            $reservations = Reservation::with(["location", "package", "activities"])->latest()->paginate(10);
+        } else {
+            $reservations = Reservation::where("user_id", Auth::id())->with(["location", "package", "activities"])->latest()->paginate(10);
+        }
         return response()->json($reservations);
     }
 
@@ -27,6 +34,8 @@ class ReservationController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize("create", Reservation::class);
+
         $validator = Validator::make($request->all(), [
             "location_id" => "required|exists:locations,id",
             "package_id" => "required|exists:packages,id",
@@ -34,7 +43,6 @@ class ReservationController extends Controller
                 "required",
                 "date",
                 "after_or_equal:today",
-                // Custom rule for one booking per location per day
                 Rule::unique("reservations")->where(function ($query) use ($request) {
                     return $query->where("location_id", $request->location_id)
                                 ->where("reservation_date", $request->reservation_date);
@@ -63,9 +71,6 @@ class ReservationController extends Controller
         $startTime = Carbon::parse($validatedData["start_time"]);
         $validatedData["end_time"] = $startTime->copy()->addHours($package->duration_hours ?? 4)->format("H:i:s");
 
-        // Placeholder for package/activity limits - to be implemented
-        // e.g., check if package allows selected number of activities or students
-
         $reservation = Reservation::create($validatedData);
 
         if ($request->has("activity_ids")) {
@@ -80,9 +85,7 @@ class ReservationController extends Controller
      */
     public function show(Reservation $reservation)
     {
-        if ($reservation->user_id !== Auth::id() /* && !Auth::user()->isAdmin() */) {
-            return response()->json(["message" => "Unauthorized"], 403);
-        }
+        $this->authorize("view", $reservation);
         return response()->json($reservation->load(["location", "package", "activities", "attendees", "payments"]));
     }
 
@@ -91,9 +94,7 @@ class ReservationController extends Controller
      */
     public function update(Request $request, Reservation $reservation)
     {
-        if ($reservation->user_id !== Auth::id() /* && !Auth::user()->isAdmin() */) {
-            return response()->json(["message" => "Unauthorized"], 403);
-        }
+        $this->authorize("update", $reservation);
 
         $validator = Validator::make($request->all(), [
             "location_id" => "sometimes|required|exists:locations,id",
@@ -119,7 +120,6 @@ class ReservationController extends Controller
             "payment_status" => "sometimes|required|in:unpaid,paid,partial",
             "activity_ids" => "nullable|array",
             "activity_ids.*" => "exists:activities,id",
-            // Conditional validation for payment data if status is 'paid'
             "payment_data.transaction_id" => [Rule::requiredIf(fn() => $request->input("payment_status") === "paid" && $request->input("status") === "confirmed"), "nullable", "string"],
             "payment_data.payment_method" => [Rule::requiredIf(fn() => $request->input("payment_status") === "paid" && $request->input("status") === "confirmed"), "nullable", "string"],
         ], [
@@ -147,23 +147,18 @@ class ReservationController extends Controller
             $validatedData["end_time"] = $startTime->copy()->addHours($package->duration_hours ?? 4)->format("H:i:s");
         }
 
-        // Placeholder for package/activity limits - to be implemented
-
         $reservation->update($validatedData);
 
         if ($request->has("activity_ids")) {
             $reservation->activities()->sync($request->input("activity_ids"));
         }
         
-        // Handle payment data if provided and status is confirmed and paid
         if ($request->input("payment_status") === "paid" && $request->input("status") === "confirmed" && $request->has("payment_data")) {
-            // This logic will be more robust in the PaymentController or a dedicated service
-            // For now, assuming payment_data contains fields for the Payment model
             $payment_info = $request->input("payment_data");
             $reservation->payments()->updateOrCreate(
-                ["payable_id" => $reservation->id, "payable_type" => Reservation::class], // Assuming one primary payment record for simplicity
+                ["payable_id" => $reservation->id, "payable_type" => Reservation::class],
                 [
-                    "amount" => $reservation->package->price, // Or calculate based on package/activities
+                    "amount" => $reservation->package->price, 
                     "payment_method" => $payment_info["payment_method"] ?? null,
                     "transaction_id" => $payment_info["transaction_id"] ?? null,
                     "status" => "completed",
@@ -180,13 +175,11 @@ class ReservationController extends Controller
      */
     public function destroy(Reservation $reservation)
     {
-        if ($reservation->user_id !== Auth::id() /* && !Auth::user()->isAdmin() */) {
-            return response()->json(["message" => "Unauthorized"], 403);
-        }
+        $this->authorize("delete", $reservation);
 
         $reservation->activities()->detach();
-        $reservation->payments()->delete(); // Delete related payments
-        $reservation->attendees()->delete(); // Delete related attendees
+        $reservation->payments()->delete();
+        $reservation->attendees()->delete();
         $reservation->delete();
 
         return response()->json(null, 204);

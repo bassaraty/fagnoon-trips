@@ -19,7 +19,14 @@ class BirthdayController extends Controller
      */
     public function index()
     {
-        $birthdays = Birthday::where("user_id", Auth::id())->with(["location", "package", "activities"])->latest()->paginate(10);
+        // Policy can be applied here if needed, e.g., $this->authorize("viewAny", Birthday::class);
+        // Current logic: only show birthdays for the authenticated user unless they are admin.
+        // If an admin should see all, the viewAny policy should handle that.
+        if (Auth::user()->hasRole("admin")) {
+            $birthdays = Birthday::with(["location", "package", "activities"])->latest()->paginate(10);
+        } else {
+            $birthdays = Birthday::where("user_id", Auth::id())->with(["location", "package", "activities"])->latest()->paginate(10);
+        }
         return response()->json($birthdays);
     }
 
@@ -28,6 +35,8 @@ class BirthdayController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize("create", Birthday::class);
+
         $validator = Validator::make($request->all(), [
             "location_id" => "required|exists:locations,id",
             "package_id" => "required|exists:packages,id",
@@ -63,7 +72,6 @@ class BirthdayController extends Controller
         $validatedData = $validator->validated();
         $package = Package::find($validatedData["package_id"]);
 
-        // Package/Activity Limits Validation
         if ($package && isset($validatedData["activity_ids"])) {
             if (count($validatedData["activity_ids"]) > $package->number_of_activities) {
                  return response()->json(["activity_ids" => ["Number of selected activities exceeds the limit for this package."]], 422);
@@ -88,9 +96,7 @@ class BirthdayController extends Controller
      */
     public function show(Birthday $birthday)
     {
-        if ($birthday->user_id !== Auth::id() /* && !Auth::user()->isAdmin() */) {
-            return response()->json(["message" => "Unauthorized"], 403);
-        }
+        $this->authorize("view", $birthday);
         return response()->json($birthday->load(["location", "package", "activities", "attendees", "payments"]));
     }
 
@@ -99,9 +105,7 @@ class BirthdayController extends Controller
      */
     public function update(Request $request, Birthday $birthday)
     {
-        if ($birthday->user_id !== Auth::id() /* && !Auth::user()->isAdmin() */) {
-            return response()->json(["message" => "Unauthorized"], 403);
-        }
+        $this->authorize("update", $birthday);
 
         $validator = Validator::make($request->all(), [
             "location_id" => "sometimes|required|exists:locations,id",
@@ -144,7 +148,6 @@ class BirthdayController extends Controller
         $validatedData = $validator->validated();
         $package = Package::find($validatedData["package_id"] ?? $birthday->package_id);
 
-        // Package/Activity Limits Validation
         if ($package && isset($validatedData["activity_ids"])) {
             if (count($validatedData["activity_ids"]) > $package->number_of_activities) {
                  return response()->json(["activity_ids" => ["Number of selected activities exceeds the limit for this package."]], 422);
@@ -152,7 +155,6 @@ class BirthdayController extends Controller
         }
 
         if (isset($validatedData["package_id"])) {
-            // $package variable is already set from above
             if (isset($validatedData["start_time"])) {
                  $startTime = Carbon::parse($validatedData["start_time"]);
                  $validatedData["end_time"] = $startTime->copy()->addHours($package->duration_hours ?? 3)->format("H:i:s");
@@ -161,7 +163,7 @@ class BirthdayController extends Controller
                  $validatedData["end_time"] = $startTime->copy()->addHours($package->duration_hours ?? 3)->format("H:i:s");
             }
         } elseif (isset($validatedData["start_time"])) {
-            $package = $birthday->package; // Use existing package if not changed
+            $package = $birthday->package; 
             $startTime = Carbon::parse($validatedData["start_time"]);
             $validatedData["end_time"] = $startTime->copy()->addHours($package->duration_hours ?? 3)->format("H:i:s");
         }
@@ -172,13 +174,12 @@ class BirthdayController extends Controller
             $birthday->activities()->sync($request->input("activity_ids"));
         }
 
-        // Handle payment data if provided and status is confirmed and paid
         if ($request->input("payment_status") === "paid" && $request->input("status") === "confirmed" && $request->has("payment_data")) {
             $payment_info = $request->input("payment_data");
             $birthday->payments()->updateOrCreate(
                 ["payable_id" => $birthday->id, "payable_type" => Birthday::class],
                 [
-                    "amount" => $birthday->package->price, // Or calculate based on package/activities
+                    "amount" => $birthday->package->price, 
                     "payment_method" => $payment_info["payment_method"] ?? null,
                     "transaction_id" => $payment_info["transaction_id"] ?? null,
                     "status" => "completed",
@@ -195,13 +196,11 @@ class BirthdayController extends Controller
      */
     public function destroy(Birthday $birthday)
     {
-        if ($birthday->user_id !== Auth::id() /* && !Auth::user()->isAdmin() */) {
-            return response()->json(["message" => "Unauthorized"], 403);
-        }
+        $this->authorize("delete", $birthday);
 
         $birthday->activities()->detach();
-        $birthday->payments()->delete(); // Delete related payments
-        $birthday->attendees()->delete(); // Delete related attendees
+        $birthday->payments()->delete(); 
+        $birthday->attendees()->delete(); 
         $birthday->delete();
 
         return response()->json(null, 204);

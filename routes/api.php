@@ -73,7 +73,7 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::get("card-view", [CardViewController::class, "index"]);
 
     // Admin Panel Routes (Protected by admin role/permission)
-    Route::prefix("admin")->name("admin.")->middleware(["auth:sanctum"/*, "role:admin"*/])->group(function () {
+    Route::prefix("admin")->name("admin.")->middleware(["auth:sanctum", "role:admin"])->group(function () {
         Route::apiResource("users", AdminUserController::class);
         Route::apiResource("locations", AdminLocationController::class); 
         Route::apiResource("packages", AdminPackageController::class);   

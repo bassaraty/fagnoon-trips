@@ -10,9 +10,20 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class AttendeeController extends Controller
 {
+    protected $eventableTypes = [
+        "reservation" => Reservation::class,
+        "birthday" => Birthday::class,
+    ];
+
+    protected function getEventableClass(string $type): ?string
+    {
+        return $this->eventableTypes[strtolower($type)] ?? null;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -20,7 +31,7 @@ class AttendeeController extends Controller
     {
         $validator = Validator::make($request->all(), [
             "eventable_id" => "required|integer",
-            "eventable_type" => ["required", "string", Rule::in([Reservation::class, Birthday::class])],
+            "eventable_type" => ["required", "string", Rule::in(array_keys($this->eventableTypes))],
         ]);
 
         if ($validator->fails()) {
@@ -28,15 +39,23 @@ class AttendeeController extends Controller
         }
 
         $eventableId = $request->input("eventable_id");
-        $eventableType = $request->input("eventable_type");
-        $event = $eventableType::find($eventableId);
+        $eventableTypeString = $request->input("eventable_type");
+        $eventableClass = $this->getEventableClass($eventableTypeString);
 
-        if (!$event || $event->user_id !== Auth::id() /* && !Auth::user()->isAdmin() */) {
+        if (!$eventableClass) {
+            return response()->json(["message" => "Invalid eventable_type specified."], 422);
+        }
+
+        $event = $eventableClass::find($eventableId);
+
+        // Authorization: Ensure the authenticated user owns the parent event or is an admin.
+        // This assumes Reservation and Birthday models have a user_id field.
+        if (!$event || ($event->user_id !== Auth::id() && !Auth::user()->hasRole("admin"))) {
             return response()->json(["message" => "Event not found or unauthorized to view attendees."], 403);
         }
 
         $attendees = Attendee::where("eventable_id", $eventableId)
-                             ->where("eventable_type", $eventableType)
+                             ->where("eventable_type", $eventableClass) // Use the resolved class name for DB query
                              ->latest()->paginate(20);
         return response()->json($attendees);
     }
@@ -48,12 +67,11 @@ class AttendeeController extends Controller
     {
         $validator = Validator::make($request->all(), [
             "eventable_id" => "required|integer",
-            "eventable_type" => ["required", "string", Rule::in([Reservation::class, Birthday::class])],
+            "eventable_type" => ["required", "string", Rule::in(array_keys($this->eventableTypes))],
             "name" => "required|string|max:255",
             "phone" => "nullable|string|max:20",
             "adult_count" => "required|integer|min:0",
             "kid_count" => "required|integer|min:0",
-            // check_in_time will be set separately or upon creation if provided
             "check_in_time" => "nullable|date_format:Y-m-d H:i:s", 
         ]);
 
@@ -62,19 +80,22 @@ class AttendeeController extends Controller
         }
 
         $validatedData = $validator->validated();
-        $event = $validatedData["eventable_type"]::find($validatedData["eventable_id"]);
+        $eventableClass = $this->getEventableClass($validatedData["eventable_type"]);
 
-        if (!$event || $event->user_id !== Auth::id() /* && !Auth::user()->isAdmin() */) {
+        if (!$eventableClass) {
+            return response()->json(["message" => "Invalid eventable_type specified."], 422);
+        }
+        
+        $event = $eventableClass::find($validatedData["eventable_id"]);
+
+        // Authorization
+        if (!$event || ($event->user_id !== Auth::id() && !Auth::user()->hasRole("admin"))) {
             return response()->json(["message" => "Event not found or unauthorized to add attendees."], 403);
         }
         
-        // Ensure at least one adult or kid is specified if counts are used for primary guest info
-        if ($validatedData["adult_count"] == 0 && $validatedData["kid_count"] == 0) {
-            // This validation might be more complex depending on how attendees are counted
-            // For now, assume a named attendee implies at least one person.
-            // If adult_count or kid_count are primary, then one must be > 0.
-            // For simplicity, we assume a named entry is one person, counts are additional.
-        }
+        // The validatedData["eventable_type"] still holds the simple string.
+        // We need to store the fully qualified class name in the database for the polymorphic relation.
+        $validatedData["eventable_type"] = $eventableClass;
 
         $attendee = $event->attendees()->create($validatedData);
         return response()->json($attendee, 201);
@@ -86,7 +107,8 @@ class AttendeeController extends Controller
     public function show(Attendee $attendee)
     {
         $event = $attendee->eventable;
-        if (!$event || $event->user_id !== Auth::id() /* && !Auth::user()->isAdmin() */) {
+        // Authorization
+        if (!$event || ($event->user_id !== Auth::id() && !Auth::user()->hasRole("admin"))) {
             return response()->json(["message" => "Unauthorized"], 403);
         }
         return response()->json($attendee);
@@ -94,12 +116,12 @@ class AttendeeController extends Controller
 
     /**
      * Update the specified resource in storage.
-     * This can be used for general updates or specific actions like check-in.
      */
     public function update(Request $request, Attendee $attendee)
     {
         $event = $attendee->eventable;
-        if (!$event || $event->user_id !== Auth::id() /* && !Auth::user()->isAdmin() */) {
+        // Authorization
+        if (!$event || ($event->user_id !== Auth::id() && !Auth::user()->hasRole("admin"))) {
             return response()->json(["message" => "Unauthorized to update this attendee."], 403);
         }
 
@@ -117,7 +139,6 @@ class AttendeeController extends Controller
 
         $validatedData = $validator->validated();
 
-        // If 'perform_check_in' flag is sent and true, and not already checked in
         if ($request->boolean("perform_check_in") && is_null($attendee->check_in_time)) {
             $validatedData["check_in_time"] = Carbon::now();
         }
@@ -132,7 +153,8 @@ class AttendeeController extends Controller
     public function destroy(Attendee $attendee)
     {
         $event = $attendee->eventable;
-        if (!$event || $event->user_id !== Auth::id() /* && !Auth::user()->isAdmin() */) {
+        // Authorization
+        if (!$event || ($event->user_id !== Auth::id() && !Auth::user()->hasRole("admin"))) {
             return response()->json(["message" => "Unauthorized to delete this attendee."], 403);
         }
 
@@ -146,13 +168,13 @@ class AttendeeController extends Controller
     public function checkIn(Request $request, Attendee $attendee)
     {
         $event = $attendee->eventable;
-        // Add more robust authorization: e.g., only staff or event owner can check-in
-        if (!$event || ($event->user_id !== Auth::id() /* && !Auth::user()->isStaff() */)) {
+        // Authorization
+        if (!$event || ($event->user_id !== Auth::id() && !Auth::user()->hasRole("admin"))) {
             return response()->json(["message" => "Unauthorized to check-in this attendee."], 403);
         }
 
         if ($attendee->check_in_time) {
-            return response()->json(["message" => "Attendee already checked in.", "attendee" => $attendee], 409); // Conflict
+            return response()->json(["message" => "Attendee already checked in.", "attendee" => $attendee], 409); 
         }
 
         $attendee->update(["check_in_time" => Carbon::now()]);

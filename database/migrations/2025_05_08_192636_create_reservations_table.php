@@ -27,6 +27,9 @@ return new class extends Migration
             $table->enum('status', ['pending', 'confirmed', 'cancelled', 'completed'])->default('pending');
             $table->enum('payment_status', ['unpaid', 'paid', 'partial'])->default('unpaid');
             $table->timestamps();
+
+            // Add composite unique index
+            $table->unique(['location_id', 'reservation_date']);
         });
 
         Schema::create('activity_reservation', function (Blueprint $table) {
