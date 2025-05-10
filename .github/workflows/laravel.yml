@@ -101,5 +101,5 @@ jobs:
         DB_DATABASE: laravel_test
         DB_USERNAME: root
         DB_PASSWORD: ""
-      run: php artisan test --verbose
+      run: php artisan test -v
 
