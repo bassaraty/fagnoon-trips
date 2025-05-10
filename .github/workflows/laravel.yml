@@ -32,7 +32,7 @@ jobs:
           sed -i '/DB_DATABASE=laravel_test/d' .env
 
       - name: Install Dependencies
-        run: composer install -q --no-ansi --no-interaction --no-scripts --prefer-dist
+        run: composer install -q --no-ansi --no-interaction --prefer-dist
 
       - name: Generate key
         run: php artisan key:generate
