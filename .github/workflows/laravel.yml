@@ -1,64 +1,73 @@
+---
 name: Laravel CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   laravel-tests:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '8.2'
-        extensions: mbstring, xml, curl, zip, pdo_sqlite # Changed pdo_mysql to pdo_sqlite
+      - uses: actions/checkout@v3
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          # Changed pdo_mysql to pdo_sqlite
+          extensions: mbstring, xml, curl, zip, pdo_sqlite
 
-    - name: Copy .env and configure DB creds for SQLite
-      run: |
-        php -r "file_exists('.env') || copy('.env.example', '.env');"
-        echo "DB_CONNECTION=sqlite" >> .env
-        echo "DB_DATABASE=:memory:" >> .env # Use in-memory SQLite for tests
-        # Remove MySQL specific sed commands and ensure others don't conflict
-        sed -i '/DB_CONNECTION=mysql/d' .env # Remove if it was set to mysql from example
-        sed -i '/DB_HOST=/d' .env
-        sed -i '/DB_PORT=/d' .env
-        sed -i '/DB_USERNAME=/d' .env
-        sed -i '/DB_PASSWORD=/d' .env
-        # Ensure laravel_test is not used if :memory: is set
-        sed -i '/DB_DATABASE=laravel_test/d' .env 
+      - name: Copy .env and configure DB creds for SQLite
+        run: |
+          php -r "file_exists('.env') || copy('.env.example', '.env');"
+          echo "DB_CONNECTION=sqlite" >> .env
+          # Use in-memory SQLite for tests
+          echo "DB_DATABASE=:memory:" >> .env
+          # Remove MySQL specific sed commands
+          sed -i '/DB_CONNECTION=mysql/d' .env
+          sed -i '/DB_HOST=/d' .env
+          sed -i '/DB_PORT=/d' .env
+          sed -i '/DB_USERNAME=/d' .env
+          sed -i '/DB_PASSWORD=/d' .env
+          # Ensure laravel_test is not used if :memory: is set
+          sed -i '/DB_DATABASE=laravel_test/d' .env
 
-    - name: Install Dependencies
-      run: composer install -q --no-ansi --no-interaction --no-scripts --prefer-dist
+      - name: Install Dependencies
+        # Install composer dependencies quietly
+        run: composer install -q --no-ansi --no-interaction --no-scripts --prefer-dist
 
-    - name: Generate key
-      run: php artisan key:generate
+      - name: Generate key
+        run: php artisan key:generate
 
-    - name: Directory Permissions
-      run: chmod -R 777 storage bootstrap/cache
+      - name: Directory Permissions
+        run: chmod -R 777 storage bootstrap/cache
 
-    # Create SQLite database file if not using in-memory for all steps
-    # For :memory:, this step might not be strictly needed if migrations handle it.
-    # However, if any part of the app expects a file, this can be added.
-    # - name: Create SQLite Database File (if needed)
-    #   run: touch database/database.sqlite
+      # Create SQLite database file if not using in-memory for all steps.
+      # For :memory:, this step might not be strictly needed.
+      # - name: Create SQLite Database File (if needed)
+      #   run: touch database/database.sqlite
 
-    - name: Clear Laravel Cache
-      run: php artisan config:clear && php artisan cache:clear && php artisan route:clear && php artisan view:clear && php artisan event:clear
+      - name: Clear Laravel Cache
+        # Clear all relevant Laravel caches
+        run: >-
+          php artisan config:clear &&
+          php artisan cache:clear &&
+          php artisan route:clear &&
+          php artisan view:clear &&
+          php artisan event:clear
 
-    - name: Run Migrations
-      env:
-        DB_CONNECTION: sqlite
-        DB_DATABASE: :memory:
-      run: php artisan migrate --force
+      - name: Run Migrations
+        env:
+          DB_CONNECTION: "sqlite"
+          DB_DATABASE: ":memory:"
+        run: php artisan migrate --force
 
-    - name: Run Tests
-      env:
-        DB_CONNECTION: sqlite
-        DB_DATABASE: :memory:
-      run: php artisan test
+      - name: Run Tests
+        env:
+          DB_CONNECTION: "sqlite"
+          DB_DATABASE: ":memory:"
+        run: php artisan test
 
