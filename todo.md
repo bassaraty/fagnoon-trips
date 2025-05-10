@@ -24,17 +24,17 @@
     - [X] Explain size breakdown to user.
     - [ ] Remove unnecessary large directories (e.g., vendor, node_modules) if confirmed by user.
 - [ ] **API Usability & Polymorphic Types**
-    - [ ] Refactor endpoints to accept simple strings for polymorphic types (`eventable_type`, `payable_type`).
-    - [ ] Internally map simple strings to correct model classes.
-    - [ ] Update validation rules and controller logic for polymorphic types.
+    - [X] Refactor endpoints to accept simple strings for polymorphic types (`eventable_type`, `payable_type`).
+    - [X] Internally map simple strings to correct model classes.
+    - [X] Update validation rules and controller logic for polymorphic types.
 - [ ] **Front-End Wiring**
-    - [ ] Implement UI and API for uploading payment slips.
-    - [ ] Implement UI and API for uploading feedback images.
-    - [ ] Implement notification panel (unread count, list, mark as read).
-    - [ ] Implement branch filtering for locations and events.
-    - [ ] Implement admin CRUD pages for packages, locations, activities, and users.
-    - [ ] Implement calendar widget with event drill-down.
-    - [ ] Implement dashboard cards for upcoming events.
+    - [X] Implement UI and API for uploading payment slips.
+    - [X] Implement UI and API for uploading feedback images.
+    - [X] Implement notification panel (unread count, list, mark as read).
+    - [X] Implement branch filtering for locations and events.
+    - [X] Implement admin CRUD pages for packages, locations, activities, and users.
+    - [X] Implement calendar widget with event drill-down.
+    - [X] Implement dashboard cards for upcoming events.
 - [ ] **Clean-Up & Documentation**
     - [ ] Remove commented-out code and obsolete TODOs.
     - [ ] Update `README.md` (roles setup, API usage, front-end build/run).

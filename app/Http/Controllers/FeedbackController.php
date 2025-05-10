@@ -10,30 +10,37 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
 
 class FeedbackController extends Controller
 {
+    protected $eventableTypes = [
+        "reservation" => Reservation::class,
+        "birthday" => Birthday::class,
+    ];
+
+    protected function getEventableClass(string $type): ?string
+    {
+        return $this->eventableTypes[strtolower($type)] ?? null;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        // Feedback might be public or admin-only, or per-event
-        // For now, let's assume it's related to a specific event if provided
-        $query = Feedback::query()->with("user"); // Eager load user who gave feedback
+        $query = Feedback::query()->with("user");
 
         if ($request->has(["eventable_type", "eventable_id"])) {
-            $eventableType = $request->input("eventable_type");
+            $eventableTypeString = $request->input("eventable_type");
             $eventableId = $request->input("eventable_id");
+            $eventableClass = $this->getEventableClass($eventableTypeString);
 
-            if (!in_array($eventableType, [Reservation::class, Birthday::class])) {
-                return response()->json(["message" => "Invalid event type for feedback."], 400);
+            if (!$eventableClass) {
+                return response()->json(["message" => "Invalid event_type for feedback."], 400);
             }
-            $query->where("eventable_type", $eventableType)->where("eventable_id", $eventableId);
+            $query->where("eventable_type", $eventableClass)->where("eventable_id", $eventableId);
         }
-        // Add authorization: only admin or event owner can see all feedback for an event?
-        // Or perhaps feedback is public once submitted for an event?
-        // This needs clarification based on requirements.
 
         $feedback = $query->latest()->paginate(15);
         return response()->json($feedback);
@@ -46,10 +53,10 @@ class FeedbackController extends Controller
     {
         $validator = Validator::make($request->all(), [
             "eventable_id" => "required|integer",
-            "eventable_type" => ["required", "string", Rule::in([Reservation::class, Birthday::class])],
+            "eventable_type" => ["required", "string", Rule::in(array_keys($this->eventableTypes))],
             "rating" => "nullable|integer|min:1|max:5",
             "comment" => "nullable|string|max:5000",
-            "feedback_image" => "nullable|image|mimes:jpg,jpeg,png|max:2048", // For direct image upload with feedback
+            "feedback_image" => "nullable|image|mimes:jpg,jpeg,png|max:2048",
         ]);
 
         if ($validator->fails()) {
@@ -57,20 +64,25 @@ class FeedbackController extends Controller
         }
 
         $validatedData = $validator->validated();
-        $event = $validatedData["eventable_type"]::find($validatedData["eventable_id"]);
+        $eventableClass = $this->getEventableClass($validatedData["eventable_type"]);
 
-        // Check if user is authorized to leave feedback (e.g., attended the event or booked it)
-        if (!$event || $event->user_id !== Auth::id() /* && !Auth::user()->isParticipant($event) */) {
+        if (!$eventableClass) {
+            return response()->json(["message" => "Invalid eventable_type specified."], 422);
+        }
+
+        $event = $eventableClass::find($validatedData["eventable_id"]);
+
+        if (!$event || ($event->user_id !== Auth::id() && !Auth::user()->hasRole("admin"))) {
             return response()->json(["message" => "Event not found or unauthorized to leave feedback."], 403);
         }
 
         $validatedData["user_id"] = Auth::id();
+        $validatedData["eventable_type"] = $eventableClass; // Store the fully qualified class name
 
         if ($request->hasFile("feedback_image")) {
             $file = $request->file("feedback_image");
             $filename = time() . "_" . $file->getClientOriginalName();
-            // Store in a path like: feedback_images/reservations/1/timestamp_image.jpg
-            $path = $file->storeAs("feedback_images/" . strtolower(class_basename($validatedData["eventable_type"])) . "/" . $validatedData["eventable_id"], $filename, "public");
+            $path = $file->storeAs("feedback_images/" . strtolower(Str::snake(class_basename($eventableClass))) . "/" . $validatedData["eventable_id"], $filename, "public");
             $validatedData["image_path"] = $path;
         }
 
@@ -83,7 +95,6 @@ class FeedbackController extends Controller
      */
     public function show(Feedback $feedback)
     {
-        // Add authorization if needed (e.g., only admin or feedback owner can view raw feedback details)
         return response()->json($feedback->load("user"));
     }
 
@@ -92,14 +103,13 @@ class FeedbackController extends Controller
      */
     public function update(Request $request, Feedback $feedback)
     {
-        if ($feedback->user_id !== Auth::id() /* && !Auth::user()->isAdmin() */) {
+        if ($feedback->user_id !== Auth::id() && !Auth::user()->hasRole("admin")) {
             return response()->json(["message" => "Unauthorized to update this feedback."], 403);
         }
 
         $validator = Validator::make($request->all(), [
             "rating" => "nullable|integer|min:1|max:5",
             "comment" => "nullable|string|max:5000",
-            // Image update can be handled by a separate method or by re-uploading
         ]);
 
         if ($validator->fails()) {
@@ -115,7 +125,7 @@ class FeedbackController extends Controller
      */
     public function destroy(Feedback $feedback)
     {
-        if ($feedback->user_id !== Auth::id() /* && !Auth::user()->isAdmin() */) {
+        if ($feedback->user_id !== Auth::id() && !Auth::user()->hasRole("admin")) {
             return response()->json(["message" => "Unauthorized to delete this feedback."], 403);
         }
 
@@ -127,16 +137,16 @@ class FeedbackController extends Controller
     }
 
     /**
-     * Handle uploading of feedback image (alternative to direct store/update).
+     * Handle uploading of feedback image.
      */
     public function uploadImage(Request $request, Feedback $feedback)
     {
-        if ($feedback->user_id !== Auth::id() /* && !Auth::user()->isAdmin() */) {
+        if ($feedback->user_id !== Auth::id() && !Auth::user()->hasRole("admin")) {
             return response()->json(["message" => "Unauthorized to upload image for this feedback."], 403);
         }
 
         $validator = Validator::make($request->all(), [
-            "feedback_image" => "required|image|mimes:jpg,jpeg,png|max:2048", // Max 2MB
+            "feedback_image" => "required|image|mimes:jpg,jpeg,png|max:2048",
         ]);
 
         if ($validator->fails()) {
@@ -144,7 +154,6 @@ class FeedbackController extends Controller
         }
 
         if ($request->hasFile("feedback_image")) {
-            // Delete old image if exists
             if ($feedback->image_path) {
                 Storage::disk("public")->delete($feedback->image_path);
             }
@@ -152,7 +161,7 @@ class FeedbackController extends Controller
             $file = $request->file("feedback_image");
             $filename = time() . "_" . $file->getClientOriginalName();
             $event = $feedback->eventable;
-            $path = $file->storeAs("feedback_images/" . strtolower(class_basename($event)) . "/" . $event->id, $filename, "public");
+            $path = $file->storeAs("feedback_images/" . strtolower(Str::snake(class_basename($event))) . "/" . $event->id, $filename, "public");
             
             $feedback->update(["image_path" => $path]);
 
