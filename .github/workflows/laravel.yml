@@ -45,10 +45,8 @@ jobs:
       - name: Directory Permissions
         run: chmod -R 777 storage bootstrap/cache
 
-      # Create SQLite database file if not using in-memory for all steps.
-      # For :memory:, this step might not be strictly needed.
-      # - name: Create SQLite Database File (if needed)
-      #   run: touch database/database.sqlite
+      - name: Publish Permission Config
+        run: php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider" --tag="config" --force
 
       - name: Clear Laravel Cache
         # Clear all relevant Laravel caches
