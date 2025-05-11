@@ -12,7 +12,8 @@ deployment:
     # - composer install --no-dev --optimize-autoloader 
     - /usr/local/bin/php artisan key:generate --force # Generate app key if not set
     - /usr/local/bin/php artisan migrate --force
-    - /usr/local/bin/php artisan storage:link || echo 'Storage link already exists or failed, check manually.'
+    - /usr/local/bin/php artisan db:seed --force # Added seeder command
+    - /usr/local/bin/php artisan storage:link || echo "Storage link already exists or failed, check manually."
     - /usr/local/bin/php artisan optimize:clear
     - /usr/local/bin/php artisan config:cache
     - /usr/local/bin/php artisan route:cache
@@ -20,4 +21,5 @@ deployment:
     # Frontend asset compilation (Uncomment and adjust if you use npm/yarn)
     # - npm install
     # - npm run build
+
 
